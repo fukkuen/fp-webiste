@@ -62,8 +62,9 @@
             YYYYMM: year + month
           }
         })
+        console.log(this.monthBoard)
         this.monthBoard.sort((current, next) => {
-          return current.YYYYMM > next.YYYYMM
+          return current.YYYYMM > next.YYYYMM ? 1 : -1
         })
         // const cYear = new Date().getFullYear()
         // const cMonth = new Date().getMonth()
@@ -89,7 +90,9 @@
     background #fffef7
     height: calc(100vh - 350px)
     overflow hidden
-    // border-top 5px solid brown
+
+    @media (max-width 1000px)
+      height auto
 
     &__title
       text-align center

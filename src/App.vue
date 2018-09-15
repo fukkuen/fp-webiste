@@ -50,7 +50,6 @@ export default {
 
       const html = htmlToElement(post)
       const images = html.getElementsByTagName('img') || []
-      console.log(images)
       this.slides = []
       for (let i = 0; i < images.length; i++) {
         this.slides.push({
@@ -86,7 +85,7 @@ export default {
       width 66.66%
 
   .hero-section
-    height calc(100vh - 250px)
+    // height calc(100vh - 250px)
     margin-top -25px
     padding-top 65px
     padding-bottom 40px
@@ -98,6 +97,7 @@ export default {
 
     @media(max-width 800px)
       margin-top auto
+      padding-top 20px
 
     &__container
       height 100%
@@ -115,11 +115,14 @@ export default {
 
       @media(max-width 1000px)
         width 100%
-        height 400px
+        // height 400px
         padding 20px
 
       .VueCarousel, .VueCarousel-wrapper, .VueCarousel-inner, .VueCarousel-slide, .home-slide, .vi-imgs, .home-slide > a
         height: calc(100vh - 350px)
+
+        @media(max-width 1000px)
+          height 400px
 
     &__r
       width 35%
