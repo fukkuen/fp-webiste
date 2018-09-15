@@ -35,7 +35,7 @@
             slide(v-for="(slide, i) in slides" :key="i" v-if="slides")
               .home-slide
                 a(:href="slide.href" target="_blank")
-                  vi-img(:src="slide.src" height="calc(100vh - 318px)" :cover="slide.cover")
+                  vi-img(:src="slide.src" height="100%" :cover="slide.cover")
         .hero-section__r
           OralCalender
     .row.bottom-section
@@ -354,6 +354,9 @@ export default {
     &__l
       width 65%
 
+      .VueCarousel, .VueCarousel-wrapper, .VueCarousel-inner, .VueCarousel-slide, .home-slide, .vi-imgs, .home-slide > a
+        height 100%
+
     &__r
       width 35%
       padding-left 20px
@@ -381,7 +384,6 @@ export default {
     max-width 1000px
 
   .home-slide
-    background white
     border-radius 20px
     overflow hidden
 </style>
