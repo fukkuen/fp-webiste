@@ -1,5 +1,5 @@
 <template lang="pug">
-  .vi-imgs(:style="style")
+  .vi-img(:style="style")
     slot
 </template>
 
@@ -42,3 +42,9 @@
     }
   }
 </script>
+
+<style lang="stylus">
+  .vi-img
+    &:hover
+      background #fff6e8
+</style>

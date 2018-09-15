@@ -1,6 +1,6 @@
 <template functional>
-  <div class="vi-spinner-2">
-    <div class="loader loader--style3" title="2">
+  <vi-row justify-center style="margin-top: 20px">
+    <div class="vi-spinner">
       <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
      width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
 
@@ -23,7 +23,7 @@
         </path>
       </svg>
     </div>
-  </div>
+  </vi-row>
 </template>
 
 <script>

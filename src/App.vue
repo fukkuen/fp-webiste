@@ -1,37 +1,11 @@
 <template lang="pug">
   #app
-    .top-bar
-      .top-bar-logo
-        img(src="./assets/logo.png" height="58" style="margin-right: 6px")
-        img(src="./assets/logotype.png" height="50")
-      .top-bar-menu
-        .top-bar-social
-          a(href="https://www.facebook.com/floatingprojects" target="_blank")
-            vi-button(icon text)
-              vi-icon(name="facebook" size="28")
-          a(href="https://www.instagram.com/explore/locations/969213982/floating-projects/" target="_blank")
-            vi-button(icon text)
-              vi-icon(name="instagram" size="28")
-          // vi-icon(name="medium" size="30")
-        template(v-for="(item, i) in menu")
-          vi-menu(v-if="item.children" :offset="item.offset" :nudge-bottom="-10" :nudge-left="item.offset")
-            .top-bar-menu__item(slot="activator")
-              .top-bar-menu__item-title {{item.title.zh}}
-                vi-icon(name="down")
-              .top-bar-menu__item-subtitle {{item.title.en}}
-            a(v-for="item in item.children" :href="item.href" target="_blank")
-              vi-item(link height="70")
-                vi-item-content
-                  vi-item-title {{item.zh}}
-                  vi-item-subtitle {{item.en}}
-          a(v-else :href="item.href" target="_blank")
-            .top-bar-menu__item
-              .top-bar-menu__item-title {{item.title.zh}}
-              .top-bar-menu__item-subtitle {{item.title.en}}
+    top-bar
     .hero-section
       .hero-section__container
         .hero-section__l
-          carousel(:per-page="1" navigation-enabled :pagination-enabled="false")
+          vi-spinner(v-if="!slides")
+          carousel(v-else :per-page="1" navigation-enabled :pagination-enabled="false")
             slide(v-for="(slide, i) in slides" :key="i" v-if="slides")
               .home-slide
                 a(:href="slide.href" target="_blank")
@@ -41,132 +15,26 @@
     .bottom-section
       vi-container
         recent-post
-    footer.footer
-      .vi-container Floating Projects © Copyright 2016. All Rights Reserved
+    site-footer
 </template>
 
 <script>
 import OralCalender from './components/oral-calender'
 import RecentPost from './components/recent-post'
+import TopBar from './components/top-bar'
+import SiteFooter from './components/footer'
 
 export default {
   name: 'App',
 
-  components: {OralCalender, RecentPost},
+  components: {OralCalender, RecentPost, SiteFooter, TopBar},
 
   data () {
     return {
       notice: null,
       posts: null,
       monthBoard: null,
-      slides: null,
-      menu: [
-        {
-          offset: 46,
-          title: {
-            zh: '打開門',
-            en: 'Floating Events'
-          },
-          children: [
-            {
-              en: 'WIP Inspection',
-              zh: '句點。定期發表',
-              href: 'http://floatingprojectscollective.net/wip-inspection/'
-            },
-            {
-              en: 'Artistic Productions',
-              zh: '實驗場',
-              href: 'http://floatingprojectscollective.net/artistic-production/'
-            },
-            {
-              en: 'Workshops',
-              zh: '工作室',
-              href: 'http://floatingprojectscollective.net/workshops/'
-            },
-            {
-              en: 'Stock-taking',
-              zh: '點子上倉',
-              href: 'http://floatingprojectscollective.net/stock-taking/'
-            },
-            {
-              en: 'Partnership',
-              zh: '據點演繹',
-              href: 'http://floatingprojectscollective.net/partnership/'
-            },
-          ]
-        },
-        {
-          offset: 80,
-          title: {
-            zh: '據點一杯茶',
-            en: 'Floating Teatime',
-          },
-          children: [
-            {
-              en: 'Art Notes',
-              zh: '藝文談暢',
-              href: 'http://floatingprojectscollective.net/art-notes/'
-            },
-            {
-              en: 'Personally Speaking',
-              zh: '私物語',
-              href: 'http://floatingprojectscollective.net/personally-speaking/'
-            },
-            {
-              en: 'Seriously Speaking',
-              zh: '大聲發表',
-              href: 'http://floatingprojectscollective.net/seriously-speaking/'
-            },
-            {
-              en: 'Coffee Fantasia',
-              zh: '咖啡經',
-              href: 'http://floatingprojectscollective.net/coffee-fantasia/'
-            },
-            {
-              en: 'Eat Well Drink Well Breathe Well',
-              zh: '吃好喝好透心涼',
-              href: 'http://floatingprojectscollective.net/eat-well-drink-well-breathe-well/'
-            }
-          ]
-        },
-        {
-          offset: 25,
-          title: {
-            zh: '據點資源',
-            en: 'Floating Resources',
-          },
-          children: [
-            {
-              en: 'Limited editions',
-              zh: '限量版',
-              href: 'http://floatingprojectscollective.net/limited/'
-            },
-            {
-              en: 'Good things ',
-              zh: '好東西',
-              href: 'http://floatingprojectscollective.net/goodthings/'
-            },
-            {
-              en: 'Floating Library ',
-              zh: '書庫',
-              href: 'http://floatingprojectscollective.net/library/'
-            },
-            {
-              en: 'Media Archive',
-              zh: '影像存庫',
-              href: 'http://floatingprojectscollective.net/media-archive/'
-            }
-          ]
-        },
-        {
-          offset: 80,
-          title: {
-            zh: '句點藝術群體',
-            en: 'Floating Projects Collective'
-          },
-          href: 'http://floatingprojectscollective.net/collective/'
-        }
-      ]
+      slides: null
     }
   },
 
@@ -217,53 +85,6 @@ export default {
       padding 12px
       width 66.66%
 
-
-  // specific
-  .top-bar
-    text-align: center
-    position relative
-    padding-top 40px
-
-  .top-bar-menu
-    display inline-flex
-    align-items center
-    justify-content center
-    margin-top 16px
-    border-radius 40px
-    border 1px solid #e1e1e1
-    position relative
-    z-index 10
-    background white
-    padding 16px 78px
-
-    &__item
-      margin 0 26px
-      font-weight bold
-      position relative
-
-      &-title
-        font-weight bold
-        font-size 17px
-        position relative
-
-        > .vi-icon
-          transition transform 0.3s
-          margin-left 4px
-          width 10px
-          height @width
-
-      &-subtitle
-        font-size 0.8em
-
-    .vi-menu__activator--active .top-bar-menu__item .vi-icon
-      transform rotate(180deg)
-
-  .top-bar-social
-    position absolute
-    right 30px
-    top -60px
-    opacity 0.6
-
   .hero-section
     height calc(100vh - 250px)
     margin-top -25px
@@ -272,6 +93,12 @@ export default {
     background #f5f5f5
     border-top 1px solid #e1e1e1
 
+    @media(max-width 1000px)
+      height auto
+
+    @media(max-width 800px)
+      margin-top auto
+
     &__container
       height 100%
       max-width 1100px
@@ -279,19 +106,33 @@ export default {
       display flex
       align-items stretch
 
+      @media(max-width 1000px)
+        display block
+
     &__l
       width 65%
+      padding-left 20px
+
+      @media(max-width 1000px)
+        width 100%
+        height 400px
+        padding 20px
 
       .VueCarousel, .VueCarousel-wrapper, .VueCarousel-inner, .VueCarousel-slide, .home-slide, .vi-imgs, .home-slide > a
-        height 100%
+        height: calc(100vh - 350px)
 
     &__r
       width 35%
       padding-left 20px
+      padding-right 20px
+
+      @media(max-width 1000px)
+        width 100%
 
   .bottom-section
     border-top 1px solid #e1e1e1
     background white
+    padding 0 0 40px
 
   .slider
     background url('./assets/fp2-opening-event.jpg')
@@ -299,10 +140,6 @@ export default {
     height: 100%;
     background-repeat: no-repeat;
     background-position: center;
-
-  .footer
-    background #414141
-    color white
 
   .vi-container
     margin 0 auto

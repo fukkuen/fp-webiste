@@ -1,8 +1,8 @@
 <template lang="pug">
   .recent-post
-    h2 最近文章 Recent Post
+    h2(class="mb-20") 最近文章 Recent Posts
     vi-spinner(v-if="!posts")
-    a(v-else v-for="(post, i) in posts" :key="i" :href="post.link")
+    a(v-else v-for="(post, i) in posts" :key="i" :href="post.link" target="_blank")
       vi-item(link height="70")
         vi-item-content
           vi-item-title(v-html="post.title.rendered")

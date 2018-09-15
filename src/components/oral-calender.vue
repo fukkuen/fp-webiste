@@ -1,12 +1,16 @@
 <template lang="pug">
-  .notice-board
-    .notice-board__title
-      vi-button(@click="prev" icon text :disabled="index === 0")
-        vi-icon(name="left" size="16")
-      div {{title}}
-      vi-button(@click="next" icon text :disabled="isMax")
-        vi-icon(name="right" size="16")
-    .notice-board__content(v-html="content")
+  .oral-calendar
+    vi-spinner(v-if="!monthBoard")
+    template(v-else)
+      .oral-calendar__title
+        vi-button(@click="prev" icon text :disabled="index === 0" flat)
+          vi-icon(name="left" size="16")
+        .date(class="mx-20")
+          .date__month {{month}} 月
+          .date__year {{year}} 年
+        vi-button(@click="next" icon text :disabled="isMax" flat)
+          vi-icon(name="right" size="16")
+      .oral-calendar__content(v-html="content")
 </template>
 
 <script>
@@ -18,9 +22,13 @@
       }
     },
     computed: {
-      title () {
+      year () {
         if (!this.monthBoard) return
-        return this.monthBoard[this.index].time
+        return this.monthBoard[this.index].year
+      },
+      month () {
+        if (!this.monthBoard) return
+        return this.monthBoard[this.index].month
       },
       content () {
         if (!this.monthBoard) return
@@ -75,11 +83,11 @@
 </script>
 
 <style lang="stylus">
-  .notice-board
+  .oral-calendar
     border-radius 20px
     box-shadow 0 3px 30px -2px rgba(0,0,0,0.1)
     background #fffef7
-    height 100%
+    height: calc(100vh - 350px)
     overflow hidden
     // border-top 5px solid brown
 
@@ -90,11 +98,19 @@
       display flex
       align-items center
       justify-content center
-      padding 20px 0
-      border-bottom 1px solid #e1e1e1
+      padding 15px 0
+      border-bottom 1px solid rgba(0,0,0,0.1)
 
     &__content
-      height 100%
-      padding 20px
+      height calc(100% - 70px)
+      padding 26px
       overflow-y scroll
+
+  .date
+    line-height 1
+    // display flex
+
+    &__year
+      font-size 0.7em
+      margin-top 5px
 </style>
