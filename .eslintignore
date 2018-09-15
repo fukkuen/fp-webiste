@@ -2,3 +2,5 @@
 /config/
 /dist/
 /*.js
+/src/components/vue-carousel/
+/src/yolo/

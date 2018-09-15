@@ -1,9 +1,11 @@
 <template lang="pug">
   .notice-board
     .notice-board__title
-      button(@click="prev") prev
+      vi-button(@click="prev" icon text :disabled="index === 0")
+        vi-icon(name="left" size="16")
       div {{title}}
-      button(@click="next") next
+      vi-button(@click="next" icon text :disabled="isMax")
+        vi-icon(name="right" size="16")
     .notice-board__content(v-html="content")
 </template>
 
@@ -23,6 +25,10 @@
       content () {
         if (!this.monthBoard) return
         return this.monthBoard[this.index].content
+      },
+      isMax () {
+        const l = this.monthBoard && this.monthBoard.length
+        return this.index >= l - 1
       }
     },
     methods: {
@@ -30,12 +36,8 @@
         if (this.index > 0) this.index--
       },
       next () {
-        const l = this.monthBoard && this.monthBoard.length
-        console.log(l)
-        if (this.index < l - 1) {
-          console.log('??')
-          this.index++
-        }
+        if (this.isMax) return
+        this.index++
       }
     },
     created () {

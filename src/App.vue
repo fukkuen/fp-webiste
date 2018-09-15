@@ -7,17 +7,20 @@
       .top-bar-menu
         .top-bar-social
           a(href="https://www.facebook.com/floatingprojects" target="_blank")
-            // vi-icon(name="facebook" size="28" color="#d7d7d7")
+            vi-button(icon text)
+              vi-icon(name="facebook" size="28")
           a(href="https://www.instagram.com/explore/locations/969213982/floating-projects/" target="_blank")
-            // vi-icon(name="instagram" size="28" color="#d7d7d7")
+            vi-button(icon text)
+              vi-icon(name="instagram" size="28")
           // vi-icon(name="medium" size="30")
-        ui-dropdown(v-for="item in menu" :offset="item.offset")
+        vi-menu(v-for="item in menu" :offset="item.offset" :nudge-bottom="-10" :nudge-left="46")
           .top-bar-menu__item(slot="activator")
             .top-bar-menu__item-title {{item.title.zh}}
             .top-bar-menu__item-subtitle {{item.title.en}}
-          div(v-for="item in item.children")
-            .title {{item.zh}}
-            .subtitle {{item.en}}
+          vi-item(v-for="item in item.children" link height="70")
+            vi-item-content
+              vi-item-title {{item.zh}}
+              vi-item-subtitle {{item.en}}
     .hero-section
       .hero-section__container
         .hero-section__l
@@ -168,6 +171,7 @@ export default {
 </script>
 
 <style lang="stylus">
+  @import './yolo/stylus/app.styl'
   body ,html
     margin 0
     padding 0
@@ -192,25 +196,6 @@ export default {
     .col-2-3
       padding 12px
       width 66.66%
-
-  .vi-item
-    text-decoration none
-    color #414141
-    margin 10px 0
-    display block
-    line-height 1.2
-    position relative
-    &:not(:last-child)
-      margin-bottom 16px
-
-    &__title
-      font-size 18px
-      font-weight bold
-
-    &__subtitle
-      font-size 14px
-      margin-top 6px
-      color #777777
 
   .panel
     // border 1px solid #e1e1e1
