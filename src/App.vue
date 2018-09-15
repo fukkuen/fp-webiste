@@ -137,13 +137,6 @@ export default {
     background white
     padding 0 0 40px
 
-  .slider
-    background url('./assets/fp2-opening-event.jpg')
-    background-size: auto 100%;
-    height: 100%;
-    background-repeat: no-repeat;
-    background-position: center;
-
   .vi-container
     margin 0 auto
     padding 20px 0
