@@ -38,47 +38,21 @@
                   vi-img(:src="slide.src" height="100%" :cover="slide.cover")
         .hero-section__r
           OralCalender
-    .row.bottom-section
-      .col-1-3
-        .panel
-          .panel__header
-            .panel__blanket 「
-            .panel__blanket.right ]
-            .panel__title 關於我吔
-            .panel__subtitle 呢班人搞咩?
-          .panel__content
-            vi-img(src="./assets/about-us.jpg")
-            // img(src="./assets/about-us.jpg")
-
-      .col-1-3
-        .panel
-          .panel__header
-            .panel__blanket 「
-            .panel__blanket.right ]
-            .panel__title 關於我吔
-            .panel__subtitle 呢班人搞咩?
-          .panel__content yo
-      .col-1-3
-        .panel
-          .panel__header
-            .panel__blanket 「
-            .panel__blanket.right ]
-            .panel__title 文章分享
-            .panel__subtitle 正經不正經也好...
-          .panel__content
-            a.vi-item(v-for="post in posts" :href="post.link" target="_blank")
-              .vi-item__title(v-html="post.title.rendered")
-              .vi-item__subtitle {{post.date}}
+    .bottom-section
+      vi-container
+        recent-post
     footer.footer
       .vi-container Floating Projects © Copyright 2016. All Rights Reserved
 </template>
 
 <script>
 import OralCalender from './components/oral-calender'
+import RecentPost from './components/recent-post'
+
 export default {
   name: 'App',
 
-  components: {OralCalender},
+  components: {OralCalender, RecentPost},
 
   data () {
     return {
@@ -225,29 +199,12 @@ export default {
     this.$http.get('http://floatingprojectscollective.net/wp-json/wp/v2/pages/5261').then(res => {
       this.getSlides(res.content.rendered)
     })
-    //
-    // this.$http.get('http://floatingprojectscollective.net/wp-json/wp/v2/posts?per_page=3').then(res => {
-    //   this.posts = res
-    // })
   }
 }
 </script>
 
 <style lang="stylus">
   @import './yolo/stylus/app.styl'
-  body ,html
-    margin 0
-    padding 0
-
-  #app
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    color: #2c3e50;
-    margin-top: 40px;
-    font-size 15px
-    line-height 1.56
-
   // generic
   .row
     display flex
@@ -260,41 +217,12 @@ export default {
       padding 12px
       width 66.66%
 
-  .panel
-    // border 1px solid #e1e1e1
-    // border-radius 20px
-
-    &__header
-      font-size 20px
-      font-weight bold
-      padding 0 16px
-      text-align center
-      position relative
-
-    &__content
-      padding 20px 16px
-
-    &__subtitle
-      font-size 0.65em
-      color #555
-
-    &__blanket
-      font-size 30px
-      line-height 1
-      font-weight bold
-      position: absolute;
-      left: 50px;
-      top: 10px;
-      opacity 0.7
-
-      &.right
-        right 50px
-        left auto
 
   // specific
   .top-bar
     text-align: center
     position relative
+    padding-top 40px
 
   .top-bar-menu
     display inline-flex
@@ -337,7 +265,7 @@ export default {
     opacity 0.6
 
   .hero-section
-    height calc(100vh - 318px)
+    height calc(100vh - 250px)
     margin-top -25px
     padding-top 65px
     padding-bottom 40px
@@ -362,10 +290,8 @@ export default {
       padding-left 20px
 
   .bottom-section
-    margin 0 auto
-    max-width 1000px
     border-top 1px solid #e1e1e1
-    // background #fffce5
+    background white
 
   .slider
     background url('./assets/fp2-opening-event.jpg')

@@ -27,3 +27,7 @@ class Http {
 }
 
 Vue.prototype.$http = new Http()
+
+Vue.filter('dateFormat', v => {
+  return v.split('T')[0]
+})
