@@ -33,7 +33,7 @@ export default {
     },
     disabled: Boolean,
     fullWidth: Boolean,
-    maxHeight: { default: '300' },
+    maxHeight: { default: 'auto' },
     offsetX: Boolean,
     offsetY: {
       type: Boolean,

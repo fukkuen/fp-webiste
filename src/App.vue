@@ -13,14 +13,21 @@
             vi-button(icon text)
               vi-icon(name="instagram" size="28")
           // vi-icon(name="medium" size="30")
-        vi-menu(v-for="item in menu" :offset="item.offset" :nudge-bottom="-10" :nudge-left="46")
-          .top-bar-menu__item(slot="activator")
-            .top-bar-menu__item-title {{item.title.zh}}
-            .top-bar-menu__item-subtitle {{item.title.en}}
-          vi-item(v-for="item in item.children" link height="70")
-            vi-item-content
-              vi-item-title {{item.zh}}
-              vi-item-subtitle {{item.en}}
+        template(v-for="(item, i) in menu")
+          vi-menu(v-if="item.children" :offset="item.offset" :nudge-bottom="-10" :nudge-left="item.offset")
+            .top-bar-menu__item(slot="activator")
+              .top-bar-menu__item-title {{item.title.zh}}
+                vi-icon(name="down")
+              .top-bar-menu__item-subtitle {{item.title.en}}
+            a(v-for="item in item.children" :href="item.href" target="_blank")
+              vi-item(link height="70")
+                vi-item-content
+                  vi-item-title {{item.zh}}
+                  vi-item-subtitle {{item.en}}
+          a(v-else :href="item.href" target="_blank")
+            .top-bar-menu__item
+              .top-bar-menu__item-title {{item.title.zh}}
+              .top-bar-menu__item-subtitle {{item.title.en}}
     .hero-section
       .hero-section__container
         .hero-section__l
@@ -81,7 +88,7 @@ export default {
       slides: null,
       menu: [
         {
-          offset: 80,
+          offset: 46,
           title: {
             zh: '打開門',
             en: 'Floating Events'
@@ -89,19 +96,28 @@ export default {
           children: [
             {
               en: 'WIP Inspection',
-              zh: '句點。定期發表'
+              zh: '句點。定期發表',
+              href: 'http://floatingprojectscollective.net/wip-inspection/'
             },
             {
               en: 'Artistic Productions',
-              zh: '實驗場'
+              zh: '實驗場',
+              href: 'http://floatingprojectscollective.net/artistic-production/'
             },
             {
               en: 'Workshops',
-              zh: '工作室'
+              zh: '工作室',
+              href: 'http://floatingprojectscollective.net/workshops/'
             },
             {
               en: 'Stock-taking',
-              zh: '點子上倉'
+              zh: '點子上倉',
+              href: 'http://floatingprojectscollective.net/stock-taking/'
+            },
+            {
+              en: 'Partnership',
+              zh: '據點演繹',
+              href: 'http://floatingprojectscollective.net/partnership/'
             },
           ]
         },
@@ -111,15 +127,62 @@ export default {
             zh: '據點一杯茶',
             en: 'Floating Teatime',
           },
-          children: []
+          children: [
+            {
+              en: 'Art Notes',
+              zh: '藝文談暢',
+              href: 'http://floatingprojectscollective.net/art-notes/'
+            },
+            {
+              en: 'Personally Speaking',
+              zh: '私物語',
+              href: 'http://floatingprojectscollective.net/personally-speaking/'
+            },
+            {
+              en: 'Seriously Speaking',
+              zh: '大聲發表',
+              href: 'http://floatingprojectscollective.net/seriously-speaking/'
+            },
+            {
+              en: 'Coffee Fantasia',
+              zh: '咖啡經',
+              href: 'http://floatingprojectscollective.net/coffee-fantasia/'
+            },
+            {
+              en: 'Eat Well Drink Well Breathe Well',
+              zh: '吃好喝好透心涼',
+              href: 'http://floatingprojectscollective.net/eat-well-drink-well-breathe-well/'
+            }
+          ]
         },
         {
-          offset: 80,
+          offset: 25,
           title: {
             zh: '據點資源',
             en: 'Floating Resources',
           },
-          children: []
+          children: [
+            {
+              en: 'Limited editions',
+              zh: '限量版',
+              href: 'http://floatingprojectscollective.net/limited/'
+            },
+            {
+              en: 'Good things ',
+              zh: '好東西',
+              href: 'http://floatingprojectscollective.net/goodthings/'
+            },
+            {
+              en: 'Floating Library ',
+              zh: '書庫',
+              href: 'http://floatingprojectscollective.net/library/'
+            },
+            {
+              en: 'Media Archive',
+              zh: '影像存庫',
+              href: 'http://floatingprojectscollective.net/media-archive/'
+            }
+          ]
         },
         {
           offset: 80,
@@ -127,7 +190,7 @@ export default {
             zh: '句點藝術群體',
             en: 'Floating Projects Collective'
           },
-          children: []
+          href: 'http://floatingprojectscollective.net/collective/'
         }
       ]
     }
@@ -246,26 +309,26 @@ export default {
     padding 16px 78px
 
     &__item
-      margin 0 20px
+      margin 0 26px
       font-weight bold
       position relative
 
       &-title
         font-weight bold
         font-size 17px
+        position relative
+
+        > .vi-icon
+          transition transform 0.3s
+          margin-left 4px
+          width 10px
+          height @width
 
       &-subtitle
         font-size 0.8em
 
-      &-dropdown
-        position absolute
-        top 70px
-        left 0
-        width 170px
-        padding 20px
-        border 1px solid #e1e1e1
-        background white
-        box-shadow 0 3px 30px -2px rgba(0,0,0,0.1)
+    .vi-menu__activator--active .top-bar-menu__item .vi-icon
+      transform rotate(180deg)
 
   .top-bar-social
     position absolute
