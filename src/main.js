@@ -2,10 +2,12 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
+import VueCarousel from './components/vue-carousel'
 import './components'
 // import router from './router'
 import './plugin'
 
+Vue.use(VueCarousel)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

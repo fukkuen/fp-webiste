@@ -7,9 +7,9 @@
       .top-bar-menu
         .top-bar-social
           a(href="https://www.facebook.com/floatingprojects" target="_blank")
-            vi-icon(name="facebook" size="28" color="#d7d7d7")
+            // vi-icon(name="facebook" size="28" color="#d7d7d7")
           a(href="https://www.instagram.com/explore/locations/969213982/floating-projects/" target="_blank")
-            vi-icon(name="instagram" size="28" color="#d7d7d7")
+            // vi-icon(name="instagram" size="28" color="#d7d7d7")
           // vi-icon(name="medium" size="30")
         ui-dropdown(v-for="item in menu" :offset="item.offset")
           .top-bar-menu__item(slot="activator")
@@ -21,11 +21,13 @@
     .hero-section
       .hero-section__container
         .hero-section__l
-          .slider
+          carousel(:per-page="1" navigation-enabled :pagination-enabled="false")
+            slide(v-for="(slide, i) in slides" :key="i" v-if="slides")
+              .home-slide
+                a(:href="slide.href" target="_blank")
+                  vi-img(:src="slide.src" height="calc(100vh - 318px)" :cover="slide.cover")
         .hero-section__r
-          .notice-board
-            .notice-board__title 9月 2018
-            .notice-board__content(v-html="notice")
+          OralCalender
     .row.bottom-section
       .col-1-3
         .panel
@@ -62,14 +64,18 @@
 </template>
 
 <script>
+import OralCalender from './components/oral-calender'
 export default {
   name: 'App',
+
+  components: {OralCalender},
 
   data () {
     return {
       notice: null,
       posts: null,
       monthBoard: null,
+      slides: null,
       menu: [
         {
           offset: 80,
@@ -124,15 +130,39 @@ export default {
     }
   },
 
-  created () {
-    // get the monthly board
-    this.$http.get('http://floatingprojectscollective.net/wp-json/wp/v2/pages/?parent=5253').then(res => {
-      this.monthBoard = res
-    })
+  methods: {
+    getSlides (post) {
+      post = `<div>${post}</div>` // make sure it is a element, not a collection of element
+      function htmlToElement(html) {
+        var template = document.createElement('template');
+        html = html.trim(); // Never return a text node of whitespace as the result
+        template.innerHTML = html;
+        return template.content.firstChild;
+      }
 
-    this.$http.get('http://floatingprojectscollective.net/wp-json/wp/v2/posts?per_page=3').then(res => {
-      this.posts = res
+      const html = htmlToElement(post)
+      const images = html.getElementsByTagName('img') || []
+      console.log(images)
+      this.slides = []
+      for (let i = 0; i < images.length; i++) {
+        this.slides.push({
+          src: images[i].attributes.src.nodeValue,
+          href: images[i].attributes.alt.nodeValue,
+          cover: images[i].classList[0]
+        })
+      }
+    }
+  },
+
+  created () {
+    // get slides
+    this.$http.get('http://floatingprojectscollective.net/wp-json/wp/v2/pages/5261').then(res => {
+      this.getSlides(res.content.rendered)
     })
+    //
+    // this.$http.get('http://floatingprojectscollective.net/wp-json/wp/v2/posts?per_page=3').then(res => {
+    //   this.posts = res
+    // })
   }
 }
 </script>
@@ -278,7 +308,7 @@ export default {
 
     &__r
       width 35%
-      padding 20px
+      padding-left 20px
 
   .bottom-section
     margin 0 auto
@@ -293,18 +323,6 @@ export default {
     background-repeat: no-repeat;
     background-position: center;
 
-  .notice-board
-    padding 20px
-    border-radius 20px
-    box-shadow 0 3px 30px -2px rgba(0,0,0,0.1)
-    background #fffef7
-    // border-top 5px solid brown
-
-    &__title
-      text-align center
-      font-size 18px
-      font-weight bold
-
   .footer
     background #414141
     color white
@@ -313,4 +331,9 @@ export default {
     margin 0 auto
     padding 20px 0
     max-width 1000px
+
+  .home-slide
+    background white
+    border-radius 20px
+    overflow hidden
 </style>
