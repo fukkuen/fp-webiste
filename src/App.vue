@@ -8,6 +8,7 @@
           carousel(v-else :per-page="1" navigation-enabled :pagination-enabled="false")
             slide(v-for="(slide, i) in slides" :key="i" v-if="slides")
               .home-slide
+                h3.home-slide__title(v-if="slide.title") {{slide.title}}
                 a(:href="slide.href" target="_blank")
                   vi-img(:src="slide.src" height="100%" :cover="slide.cover")
         .hero-section__r
@@ -49,13 +50,15 @@ export default {
       }
 
       const html = htmlToElement(post)
+      console.log(html)
       const images = html.getElementsByTagName('img') || []
       this.slides = []
       for (let i = 0; i < images.length; i++) {
         this.slides.push({
           src: images[i].attributes.src.nodeValue,
           href: images[i].attributes.alt.nodeValue,
-          cover: images[i].classList[0]
+          cover: images[i].classList[0],
+          title: images[i].title
         })
       }
     }
@@ -145,4 +148,15 @@ export default {
   .home-slide
     border-radius 20px
     overflow hidden
+    position relative
+
+    &__title
+      position absolute
+      background rgba(0,0,0,0.6)
+      color white
+      padding 20px
+      bottom 0
+      left 0
+      right 0
+      z-index 2
 </style>
