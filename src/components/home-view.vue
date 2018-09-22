@@ -1,26 +1,30 @@
 <template lang="pug">
   #app
-    top-bar
-    router-view
-    site-footer
+    .hero-section
+      .hero-section__container
+        .hero-section__l
+          HomeSlide
+        .hero-section__r
+          OralCalender
+    .bottom-section
+      vi-container
+        recent-post
 </template>
 
 <script>
-import OralCalender from './components/oral-calender'
-import RecentPost from './components/recent-post'
-import TopBar from './components/top-bar'
-import SiteFooter from './components/footer'
-import HomeSlide from './components/home-slider'
+  import OralCalender from './oral-calender'
+  import RecentPost from './recent-post'
+  import HomeSlide from './home-slider'
 
-export default {
-  name: 'App',
+  export default {
+    name: 'App',
 
-  components: {OralCalender, RecentPost, SiteFooter, TopBar, HomeSlide},
-}
+    components: {OralCalender, RecentPost, HomeSlide},
+  }
 </script>
 
 <style lang="stylus">
-  @import './yolo/stylus/app.styl'
+  @import '../yolo/stylus/app.styl'
   // generic
   .row
     display flex
