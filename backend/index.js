@@ -20,12 +20,20 @@ var c = new Client({
 });
 
 app.get('/api/posts', (req, res) => {
-  c.query('SELECT p.ID, p.post_title, t.name AS cat_name, t.slug AS cat_slug, t.term_id\n' +
-    'FROM wp_posts p\n' +
-    'LEFT JOIN wp_term_relationships rel on rel.object_id = p.ID\n' +
-    'LEFT JOIN wp_term_taxonomy tax ON tax.`term_taxonomy_id` = rel.`term_taxonomy_id`\n' +
-    'LEFT JOIN wp_terms t on t.`term_id` = tax.`term_id`\n' +
-    'WHERE post_status = \'publish\' AND tax.taxonomy = \'category\'', null, {}, (e, rows) => {
+  c.query('SELECT wp.ID, wp.post_title, wpm2.meta_value, term.name AS cat_name, term.slug AS cat_slug\n' +
+    'FROM wp_posts wp\n' +
+    'LEFT JOIN wp_postmeta wpm\n' +
+    '    ON (wp.ID = wpm.post_id AND wpm.meta_key = \'_thumbnail_id\')\n' +
+    'LEFT JOIN wp_postmeta wpm2\n' +
+    '    ON (wpm.meta_value = wpm2.post_id AND wpm2.meta_key = \'_wp_attached_file\')\n' +
+    'LEFT JOIN wp_term_relationships term_relation\n' +
+    '\tON wp.ID = term_relation.object_id\n' +
+    'LEFT JOIN wp_term_taxonomy term_tax\n' +
+    '\tON term_relation.term_taxonomy_id = term_tax.term_taxonomy_id\n' +
+    'LEFT JOIN wp_terms term\n' +
+    '\tON term_tax.term_id = term.term_id\n' +
+    'WHERE wp.post_type = \'post\'\n' +
+    '\tAND wp.post_status = \'publish\' AND term_tax.taxonomy = \'category\'\n', null, {}, (e, rows) => {
     res.send(rows)
   })
 })

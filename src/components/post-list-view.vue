@@ -1,7 +1,8 @@
 <template lang="pug">
   .post-list
-    button(v-for="c in categories" @click="filter = c.id") {{c.id}}
-    router-link(:to="{name: 'post-detail', params: {id: p.ID}}" v-for="p in filteredPosts")
+    button(v-for="c in categories" @click="filter = c.id" :key="c.id") {{c.id}}
+    router-link(:to="{name: 'post-detail', params: {id: p.ID}}" v-for="p in filteredPosts" :key="p.ID")
+      img(:src="`http://floatingprojectscollective.net//wp-content/uploads/${p.meta_value}`" width="80")
       vi-item(link height="60") {{p.post_title}} {{p.cat_name}}
 </template>
 
