@@ -1,14 +1,9 @@
 var express = require('express')
 var app = express()
 var Client = require('mariasql');
-var path = require('path')
+// var path = require('path')
 
-app.get('/', function (req, res) {
-  res.send('hi!')
-  // res.sendFile(path.join(__dirname, '../dist', 'index.html'));
-})
-
-app.use(express.static(path.join(__dirname, '../dist')))
+// app.use(express.static(path.join(__dirname, '../dist')))
 
 //配置相关信息
 var c = new Client({
@@ -50,6 +45,10 @@ app.get('/api/posts/:id', (req, res) => {
   })
 })
 
-app.listen(8080, () => {
-  console.log('Server listening on port 8080')
+app.get('/api/test', (req, res) => {
+  res.send('here!')
+})
+
+app.listen(3000, () => {
+  console.log('Server listening on port 3000')
 })

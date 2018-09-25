@@ -18,12 +18,12 @@
             .top-bar-menu__item-title {{item.title.zh}}
               vi-icon(name="down")
             .top-bar-menu__item-subtitle {{item.title.en}}
-          a(v-for="item in item.children" :href="item.href" target="_blank")
+          router-link(v-for="item in item.children" :to="item.href")
             vi-item(link height="70")
               vi-item-content
                 vi-item-title {{item.zh}}
                 vi-item-subtitle {{item.en}}
-        a(v-else :href="item.href" target="_blank")
+        router-link(v-else :to="item.href")
           .top-bar-menu__item
             .top-bar-menu__item-title {{item.title.zh}}
             .top-bar-menu__item-subtitle {{item.title.en}}
@@ -76,27 +76,37 @@
               {
                 en: 'WIP Inspection',
                 zh: '句點。定期發表',
-                href: 'http://floatingprojectscollective.net/wip-inspection/'
+                href: {
+                  name: 'post-list'
+                }
               },
               {
                 en: 'Artistic Productions',
                 zh: '實驗場',
-                href: 'http://floatingprojectscollective.net/artistic-production/'
+                href: {
+                  name: 'post-list'
+                }
               },
               {
                 en: 'Workshops',
                 zh: '工作室',
-                href: 'http://floatingprojectscollective.net/workshops/'
+                href: {
+                  name: 'post-list'
+                }
               },
               {
                 en: 'Stock-taking',
                 zh: '點子上倉',
-                href: 'http://floatingprojectscollective.net/stock-taking/'
+                href: {
+                  name: 'post-list'
+                }
               },
               {
                 en: 'Partnership',
                 zh: '據點演繹',
-                href: 'http://floatingprojectscollective.net/partnership/'
+                href: {
+                  name: 'post-list'
+                }
               },
             ]
           },
