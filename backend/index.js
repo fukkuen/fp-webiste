@@ -18,6 +18,13 @@ var c = new Client({
   charset: 'utf8'
 });
 
+c.query('SHOW DATABASES', null, { metadata: true }, function(err, rows) {
+  if (err)
+    throw err;
+  // `rows.info.metadata` contains the metadata
+  console.dir(rows);
+});
+
 app.get('/api/posts', (req, res) => {
   c.query('SELECT wp.ID, wp.post_title, wpm2.meta_value, term.name AS cat_name, term.slug AS cat_slug\n' +
     'FROM wp_posts wp\n' +
