@@ -7,11 +7,11 @@ var Client = require('mariasql');
 
 //配置相关信息
 var c = new Client({
-  host: '127.0.0.1',
+  host: 'first-db-created.c2cmpgkyorru.ap-southeast-1.rds.amazonaws.com',
   //用户名
-  user: 'root',
+  user: 'fukkuen',
   //密码默认为空
-  password: '',
+  password: 'Yy27022070',
   //使用哪个数据库
   db: 'floatingprojectscollective_net',
 
