@@ -4,7 +4,8 @@ var Client = require('mariasql');
 var path = require('path')
 
 app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, '../dist', 'index.html'));
+  res.send('hi!')
+  // res.sendFile(path.join(__dirname, '../dist', 'index.html'));
 })
 
 app.use(express.static(path.join(__dirname, '../dist')))
