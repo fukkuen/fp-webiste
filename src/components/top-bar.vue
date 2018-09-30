@@ -1,8 +1,8 @@
 <template lang="pug">
   .top-bar
     .top-bar-logo
-      img(src="http://floatingprojectscollective.net/wp-content/uploads/2018/09/logo-2018-09-15.png" height="58" style="margin-right: 6px")
-      img(class="top-bar-logo__type" src="http://floatingprojectscollective.net/wp-content/uploads/2018/09/logotype-2018-09-15.png" height="50")
+      img(src="http://floatingprojectscollective.net/wp-content/uploads/2010/02/fp_logo_web.png" height="58" style="margin-right: 6px")
+      // img(class="top-bar-logo__type" src="http://floatingprojectscollective.net/wp-content/uploads/2018/09/logotype-2018-09-15.png" height="50")
     .top-bar-menu
       .top-bar-social
         a(href="https://www.facebook.com/floatingprojects" target="_blank")
@@ -170,6 +170,35 @@
               en: 'Floating Projects Collective'
             },
             href: 'http://floatingprojectscollective.net/collective/'
+          },
+          {
+            offset: 25,
+            title: {
+              zh: '關於',
+              en: 'About'
+            },
+            children: [
+              {
+                zh: '關於據點。句點',
+                en: 'About Floating Projects ',
+                href: 'http://floatingprojectscollective.net/about/'
+              },
+              {
+                zh: ' 理念論述',
+                en: 'Conceptual Discourse ',
+                href: 'http://floatingprojectscollective.net/conceptual-discourse/'
+              },
+              {
+                zh: ' 傳媒說據點',
+                en: 'Press Coverage ',
+                href: 'http://floatingprojectscollective.net/press-coverage/'
+              },
+              {
+                zh: ' 聯絡我們',
+                en: 'Contact us ',
+                href: 'http://floatingprojectscollective.net/contact/'
+              }
+            ]
           }
         ]
       }
@@ -183,11 +212,11 @@
     position relative
     padding-top 40px
 
-    @media(max-width 800px)
+    @media(max-width 900px)
       padding-top 0
 
   .top-bar-logo
-    @media(max-width 800px)
+    @media(max-width 900px)
       transform scale(0.7) translateY(2px)
 
     &__type
@@ -209,7 +238,7 @@
     @media(max-width 1000px)
       padding 16px 40px
 
-    @media(max-width 800px)
+    @media(max-width 900px)
       display none
 
     &__item
@@ -237,7 +266,7 @@
       transform rotate(180deg)
 
   .top-bar-mobile
-    @media(min-width 801px)
+    @media(min-width 901px)
       display none
 
   .top-bar-social

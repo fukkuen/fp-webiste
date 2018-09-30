@@ -51,7 +51,7 @@
   .footer-menu
     display inline-flex
 
-    @media(max-width: 800px)
+    @media(max-width: 900px)
       display block
 
   .footer-link
