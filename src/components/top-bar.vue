@@ -11,7 +11,9 @@
         a(href="https://www.instagram.com/explore/locations/969213982/floating-projects/" target="_blank")
           vi-button(icon text)
             vi-icon(name="instagram" size="28")
-        // vi-icon(name="medium" size="30")
+        a(href="https://vimeo.com/floatingprojectsvideos" target="_blank")
+          vi-button(icon text)
+            vi-icon(name="vimeo" size="24")
       template(v-for="(item, i) in menu")
         vi-menu(v-if="item.children" :offset="item.offset" :nudge-bottom="28" :nudge-left="item.offset")
           .top-bar-menu__item(slot="activator")
@@ -53,6 +55,9 @@
           a(href="https://www.instagram.com/explore/locations/969213982/floating-projects/" target="_blank")
             vi-button(icon text size="50")
               vi-icon(name="instagram" size="36")
+          a(href="https://vimeo.com/floatingprojectsvideos" target="_blank")
+            vi-button(icon text size="50")
+              vi-icon(name="vimeo" size="32")
 </template>
 
 <script>

@@ -1,12 +1,12 @@
 <template lang="pug">
   footer.footer
     vi-container
-      vi-row(align-center justify-center)
+      // vi-row(align-center justify-center)
         .footer-menu
           a(v-for="(item, i) in menu" :key="i" :href="item.href" target="_blank" class="footer-link")
             div {{item.zh_name}}
             div {{item.en_name}}
-      div(class="mt-40" style="font-size: 14px") Floating Projects © Copyright 2016. All Rights Reserved
+      div(style="font-size: 14px") Floating Projects © Copyright 2016. All Rights Reserved
 </template>
 
 <script>
@@ -44,9 +44,10 @@
 <style lang="stylus">
   .footer
     text-align center
-    background #414141
-    color white
+    // background #414141
+    // color white
     font-size 16px
+    border-top 1px solid #e1e1e1
 
   .footer-menu
     display inline-flex

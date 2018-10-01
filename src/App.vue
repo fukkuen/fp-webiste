@@ -74,6 +74,8 @@ export default {
 </script>
 
 <style lang="stylus">
+  @import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
   @import './yolo/stylus/app.styl'
   // generic
   .row
