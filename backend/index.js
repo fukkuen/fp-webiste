@@ -1,13 +1,10 @@
 var express = require('express')
 var app = express()
 var Client = require('mariasql');
-// var path = require('path')
-
-// app.use(express.static(path.join(__dirname, '../dist')))
 
 //配置相关信息
 var c = new Client({
-  host: 'first-db-created.c2cmpgkyorru.ap-southeast-1.rds.amazonaws.com',
+  host: 'wordpress-db.cfbf3bfcunf4.us-east-2.rds.amazonaws.com',
   //用户名
   user: 'fukkuen',
   //密码默认为空
