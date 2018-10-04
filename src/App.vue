@@ -20,6 +20,8 @@ export default {
 </script>
 
 <style lang="stylus">
+  @import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
   @import './yolo/stylus/app.styl'
   // generic
   .row
@@ -44,7 +46,7 @@ export default {
     @media(max-width 1000px)
       height auto
 
-    @media(max-width 800px)
+    @media(max-width 900px)
       margin-top auto
       padding-top 20px
 
