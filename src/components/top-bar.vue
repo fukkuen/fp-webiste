@@ -238,7 +238,7 @@
               {
                 zh: '關於據點。句點',
                 en: 'About Floating Projects ',
-                href: 'http://floatingprojectscollective.net/about/'
+                href: {name: 'about'}
               },
               {
                 zh: ' 理念論述',

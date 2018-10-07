@@ -4,6 +4,7 @@ import PostListView from '../components/post-list-view'
 import PostDetailView from '../components/post-detail-view'
 import MemberListView from '../components/member-list'
 import HomeView from '../components/home-view'
+import AboutView from '../components/about-view'
 
 Vue.use(Router)
 
@@ -29,6 +30,11 @@ export default new Router({
       name: 'member-list',
       path: '/members',
       component: MemberListView
+    },
+    {
+      name: 'about',
+      path: '/about',
+      component: AboutView
     }
   ]
 })

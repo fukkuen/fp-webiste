@@ -97,6 +97,14 @@ app.get('/api/members', (req, res) => {
   })
 })
 
+app.get('/api/about', (req, res) => {
+  c.query(`SELECT *
+    FROM wp_posts wp
+    WHERE wp.ID = 2`, null, {}, (e, row) => {
+    res.send(row && row[0])
+  })
+})
+
 app.get('/api/posts/:id', (req, res) => {
   c.query('SELECT * FROM wp_posts p where p.ID = :id', {
     id: req.params.id
