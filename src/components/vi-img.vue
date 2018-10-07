@@ -27,7 +27,8 @@
           'background-position': 'center',
           'background-image': 'url(' + this.src +')',
           'background-repeat': 'no-repeat',
-          'height': this.height
+          'height': this.height,
+          'width': '100%'
         }
       },
       backgroundSize () {

@@ -16,7 +16,7 @@ export default new Router({
     },
     {
       name: 'post-list',
-      path: '/posts',
+      path: '/posts/:catSlug',
       component: PostListView
     },
     {

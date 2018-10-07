@@ -82,35 +82,50 @@
                 en: 'WIP Inspection',
                 zh: '句點。定期發表',
                 href: {
-                  name: 'post-list'
+                  name: 'post-list',
+                  params: {
+                    catSlug: 'wip-inspection'
+                  }
                 }
               },
               {
                 en: 'Artistic Productions',
                 zh: '實驗場',
                 href: {
-                  name: 'post-list'
+                  name: 'post-list',
+                  params: {
+                    catSlug: 'artistic-production'
+                  }
                 }
               },
               {
                 en: 'Workshops',
                 zh: '工作室',
                 href: {
-                  name: 'post-list'
+                  name: 'post-list',
+                  params: {
+                    catSlug: 'workshops'
+                  }
                 }
               },
               {
                 en: 'Stock-taking',
                 zh: '點子上倉',
                 href: {
-                  name: 'post-list'
+                  name: 'post-list',
+                  params: {
+                    catSlug: 'stock-taking'
+                  }
                 }
               },
               {
                 en: 'Partnership',
                 zh: '據點演繹',
                 href: {
-                  name: 'post-list'
+                  name: 'post-list',
+                  params: {
+                    catSlug: 'partnership'
+                  }
                 }
               },
             ]
@@ -125,27 +140,52 @@
               {
                 en: 'Art Notes',
                 zh: '藝文談暢',
-                href: 'http://floatingprojectscollective.net/art-notes/'
+                href: {
+                  name: 'post-list',
+                  params: {
+                    catSlug: 'art-notes'
+                  }
+                }
               },
               {
                 en: 'Personally Speaking',
                 zh: '私物語',
-                href: 'http://floatingprojectscollective.net/personally-speaking/'
+                href: {
+                  name: 'post-list',
+                  params: {
+                    catSlug: 'personally-speaking'
+                  }
+                }
               },
               {
                 en: 'Seriously Speaking',
                 zh: '大聲發表',
-                href: 'http://floatingprojectscollective.net/seriously-speaking/'
+                href: {
+                  name: 'post-list',
+                  params: {
+                    catSlug: 'seriously-speaking'
+                  }
+                }
               },
               {
                 en: 'Coffee Fantasia',
                 zh: '咖啡經',
-                href: 'http://floatingprojectscollective.net/coffee-fantasia/'
+                href: {
+                  name: 'post-list',
+                  params: {
+                    catSlug: 'coffee-fantasia'
+                  }
+                }
               },
               {
                 en: 'Eat Well Drink Well Breathe Well',
                 zh: '吃好喝好透心涼',
-                href: 'http://floatingprojectscollective.net/eat-well-drink-well-breathe-well/'
+                href: {
+                  name: 'post-list',
+                  params: {
+                    catSlug: 'eat-well-drink-well-breathe-well'
+                  }
+                }
               }
             ]
           },
