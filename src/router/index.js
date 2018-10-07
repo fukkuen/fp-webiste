@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import PostListView from '../components/post-list-view'
 import PostDetailView from '../components/post-detail-view'
+import MemberListView from '../components/member-list'
 import HomeView from '../components/home-view'
 
 Vue.use(Router)
@@ -23,6 +24,11 @@ export default new Router({
       name: 'post-detail',
       path: '/posts/:id',
       component: PostDetailView
+    },
+    {
+      name: 'member-list',
+      path: '/members',
+      component: MemberListView
     }
   ]
 })

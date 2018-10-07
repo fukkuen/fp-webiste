@@ -224,7 +224,9 @@
               zh: '句點藝術群體',
               en: 'Floating Projects Collective'
             },
-            href: 'http://floatingprojectscollective.net/collective/'
+            href: {
+              name: 'member-list'
+            }
           },
           {
             offset: 25,

@@ -82,6 +82,21 @@ app.get('/api/posts', (req, res) => {
   })
 })
 
+app.get('/api/members', (req, res) => {
+  c.query(`SELECT wp.post_title as member_name, wp2.guid as image
+    FROM wp_posts wp
+    LEFT JOIN wp_postmeta m
+    ON m.post_id = wp.ID
+    LEFT JOIN wp_posts wp2
+    ON wp2.ID = m.meta_value
+    WHERE wp.post_type = 'collective'
+    AND m.meta_key = '_thumbnail_id'
+    AND wp.post_status = 'publish'
+    GROUP BY wp.ID`, null, {}, (e, row) => {
+    res.send(row)
+  })
+})
+
 app.get('/api/posts/:id', (req, res) => {
   c.query('SELECT * FROM wp_posts p where p.ID = :id', {
     id: req.params.id
