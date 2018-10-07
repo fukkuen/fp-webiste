@@ -82,7 +82,7 @@
                 en: 'WIP Inspection',
                 zh: '句點。定期發表',
                 href: {
-                  name: 'post-list',
+                  name: 'event-list',
                   params: {
                     catSlug: 'wip-inspection'
                   }
@@ -92,7 +92,7 @@
                 en: 'Artistic Productions',
                 zh: '實驗場',
                 href: {
-                  name: 'post-list',
+                  name: 'event-list',
                   params: {
                     catSlug: 'artistic-production'
                   }
@@ -102,7 +102,7 @@
                 en: 'Workshops',
                 zh: '工作室',
                 href: {
-                  name: 'post-list',
+                  name: 'event-list',
                   params: {
                     catSlug: 'workshops'
                   }
@@ -112,7 +112,7 @@
                 en: 'Stock-taking',
                 zh: '點子上倉',
                 href: {
-                  name: 'post-list',
+                  name: 'event-list',
                   params: {
                     catSlug: 'stock-taking'
                   }
@@ -122,7 +122,7 @@
                 en: 'Partnership',
                 zh: '據點演繹',
                 href: {
-                  name: 'post-list',
+                  name: 'event-list',
                   params: {
                     catSlug: 'partnership'
                   }

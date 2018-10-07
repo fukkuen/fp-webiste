@@ -82,6 +82,66 @@ app.get('/api/posts', (req, res) => {
   })
 })
 
+
+app.get('/api/events', (req, res) => {
+  c.query(
+    `SELECT 
+        wp.ID as post_id, 
+        wp.post_title, 
+        wp.post_excerpt,
+        wp.post_date, 
+        tax.taxonomy, 
+        t.slug as term_slug, 
+        t.name as term_name,
+        u.ID as author_id,
+        u.display_name as author_name,
+        wp2.guid as image
+      FROM wp_posts wp
+      LEFT JOIN wp_term_relationships rel 
+        ON rel.object_id = wp.ID
+      LEFT JOIN wp_term_taxonomy tax
+        ON tax.term_taxonomy_id = rel.term_taxonomy_id
+      LEFT JOIN wp_terms t
+        ON t.term_id = tax.term_id
+      LEFT JOIN wp_users u
+        ON u.ID = post_author
+      LEFT JOIN wp_postmeta m
+        ON m.post_id = wp.ID
+      LEFT JOIN wp_posts wp2
+        ON wp2.ID = m.meta_value
+      WHERE wp.post_status = 'publish'
+        AND wp.post_type = 'portfolio'
+        AND tax.taxonomy = 'portfolio_category'
+        AND m.meta_key = '_thumbnail_id'
+      `, null, {}, (e, rows) => {
+      const result = {}
+      rows.forEach(row => {
+        if (!result[row.post_id]) {
+          result[row.post_id] = {
+            event_id: row.post_id,
+            event_title: row.post_title,
+            author_id: row.author_id,
+            author_name: row.author_name,
+            publish_date: row.post_date,
+            image: row.image,
+            tags: [],
+            cats: []
+          }
+        }
+        result[row.post_id].cats.push({
+          name: row.term_name,
+          slug: row.term_slug
+        })
+      })
+      const arr = []
+      for (let prop in result) {
+        arr.push(result[prop])
+      }
+      arr.sort((a,b) => a.publish_date < b.publish_date ? 1 : -1)
+      res.send(arr)
+    })
+})
+
 app.get('/api/members', (req, res) => {
   c.query(`SELECT wp.post_title as member_name, wp2.guid as image
     FROM wp_posts wp

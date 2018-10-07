@@ -21,6 +21,7 @@ export default {
       return this.$route.params.catSlug
     },
     filteredPosts () {
+      if (!this.posts) return
       return this.posts.filter(p => p.cats.map(c => c.slug).includes(this.$catSlug))
     }
   },
