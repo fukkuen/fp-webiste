@@ -43,6 +43,10 @@
     created () {
       this.$http.get('/posts').then(res => {
         console.log(res)
+        res.forEach(p => {
+          if (!p.meta_value) return
+          p.meta_value = p.meta_value.split('.')[0] + '-468x328.' + p.meta_value.split('.')[1]
+        })
         this.posts = res
       })
     }

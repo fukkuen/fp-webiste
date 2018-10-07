@@ -23,21 +23,48 @@ c.query('SHOW DATABASES', null, { metadata: true }, function(err, rows) {
 });
 
 app.get('/api/posts', (req, res) => {
-  c.query('SELECT wp.ID, wp.post_title, wpm2.meta_value, term.name AS cat_name, term.slug AS cat_slug\n' +
-    'FROM wp_posts wp\n' +
-    'LEFT JOIN wp_postmeta wpm\n' +
-    '    ON (wp.ID = wpm.post_id AND wpm.meta_key = \'_thumbnail_id\')\n' +
-    'LEFT JOIN wp_postmeta wpm2\n' +
-    '    ON (wpm.meta_value = wpm2.post_id AND wpm2.meta_key = \'_wp_attached_file\')\n' +
-    'LEFT JOIN wp_term_relationships term_relation\n' +
-    '\tON wp.ID = term_relation.object_id\n' +
-    'LEFT JOIN wp_term_taxonomy term_tax\n' +
-    '\tON term_relation.term_taxonomy_id = term_tax.term_taxonomy_id\n' +
-    'LEFT JOIN wp_terms term\n' +
-    '\tON term_tax.term_id = term.term_id\n' +
-    'WHERE wp.post_type = \'post\'\n' +
-    '\tAND wp.post_status = \'publish\' AND term_tax.taxonomy = \'category\'\n', null, {}, (e, rows) => {
-    res.send(rows)
+  c.query(
+    `SELECT 
+        wp.ID as post_id, 
+        wp.post_title, 
+        wp.post_excerpt,
+        wp.post_date, 
+        tax.taxonomy, 
+        t.slug as term_slug, 
+        t.name as term_name,
+        u.ID as author_id,
+        u.display_name as author_name
+      FROM wp_posts wp
+      LEFT JOIN wp_term_relationships rel 
+        ON rel.object_id = wp.ID
+      LEFT JOIN wp_term_taxonomy tax
+        ON tax.term_taxonomy_id = rel.term_taxonomy_id
+      LEFT JOIN wp_terms t
+        ON t.term_id = tax.term_id
+      LEFT JOIN wp_users u
+        ON u.ID = post_author
+      WHERE wp.post_status = 'publish'
+        AND wp.post_type = 'post'
+      `, null, {}, (e, rows) => {
+    const result = {}
+    rows.forEach(row => {
+      if (!result[row.post_id]) {
+        result[row.post_id] = {
+          post_title: row.post_title,
+          author_id: row.author_id,
+          author_name: row.author_name,
+          publish_date: row.post_date,
+          tags: [],
+          cats: []
+        }
+      }
+      const key = row.taxonomy === 'category' ? 'cats' : 'tags'
+      result[row.post_id][key].push({
+        name: row.term_name,
+        slug: row.term_slug
+      })
+    })
+    res.send(result)
   })
 })
 
