@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import PostListView from '../components/post-list-view'
 import EventListView from '../components/event-list-view'
 import PostDetailView from '../components/post-detail-view'
+import EventDetailView from '../components/event-detail-view'
 import MemberListView from '../components/member-list'
 import HomeView from '../components/home-view'
 import AboutView from '../components/about-view'
@@ -24,13 +25,18 @@ export default new Router({
     },
     {
       name: 'event-list',
-      path: '/events/:catSlug',
+      path: '/events/category/:catSlug',
       component: EventListView
     },
     {
       name: 'post-detail',
       path: '/posts/:id',
       component: PostDetailView
+    },
+    {
+      name: 'event-detail',
+      path: '/events/:id',
+      component: EventDetailView
     },
     {
       name: 'member-list',

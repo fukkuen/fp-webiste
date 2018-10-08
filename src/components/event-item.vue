@@ -1,15 +1,13 @@
 <template lang="pug">
   .event-item
     .event-item__l
-      vi-img(:src="event.image" height="200px")
+      vi-img(:src="event.imageUrl" height="200px")
     .event-item__r
-      h3 {{event.event_title}}
-      p {{event.event_excerpt}}
+      h3 {{event.eventTitle}}
       div
-        router-link(v-for="cat in event.cats" :key="cat.slug" :to="{name: 'event-list', params:{catSlug: cat.slug}}")
-          vi-chip(class="mr-2") {{cat.name}}
-      div {{event.publish_date}}
-      div {{event.author_name}}
+        router-link(v-for="(cat,i) in event.eventCats" :key="i" :to="{name: 'event-list', params:{catSlug: cat}}")
+          vi-chip(class="mr-2") {{cat}}
+      div {{event.startDate}}
 </template>
 
 <script>

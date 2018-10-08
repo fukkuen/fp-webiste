@@ -1,5 +1,6 @@
 <template lang="pug">
   #app
+    FpCalendar
     .hero-section
       .hero-section__container
         .hero-section__l
@@ -15,11 +16,12 @@
   import OralCalender from './oral-calender'
   import RecentPost from './recent-post'
   import HomeSlide from './home-slider'
+  import FpCalendar from './fp-calender'
 
   export default {
     name: 'App',
 
-    components: {OralCalender, RecentPost, HomeSlide},
+    components: {OralCalender, RecentPost, HomeSlide, FpCalendar},
   }
 </script>
 

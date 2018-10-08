@@ -2,7 +2,7 @@
   .event-list
     vi-container
       vi-spinner(v-if="!events")
-      router-link(v-else v-for="event in filteredEvents" :to="{name: 'event-detail', params: {id: event.event_id}}" :key="event.event_id")
+      router-link(v-else v-for="event in filteredEvents" :to="{name: 'event-detail', params: {id: event.eventId}}" :key="event.eventId")
         event-item(:event="event")
 </template>
 
@@ -25,12 +25,13 @@ export default {
     },
     filteredEvents () {
       if (!this.events) return
-      return this.events.filter(p => p.cats.map(c => c.slug).includes(this.$catSlug))
+      return this.events // TODO
+      // return this.events.filter(p => p.cats.map(c => c.slug).includes(this.$catSlug))
     }
   },
 
   created () {
-    this.$http.get('/events').then(res => {
+    this.$http.get('/v2/events').then(res => {
       this.events = res
     })
   }

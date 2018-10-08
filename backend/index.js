@@ -18,8 +18,6 @@ var c = new Client({
 c.query('SHOW DATABASES', null, { metadata: true }, function(err, rows) {
   if (err)
     throw err;
-  // `rows.info.metadata` contains the metadata
-  console.dir(rows);
 });
 
 app.get('/api/posts', (req, res) => {
@@ -120,26 +118,74 @@ app.get('/api/events', (req, res) => {
           result[row.post_id] = {
             event_id: row.post_id,
             event_title: row.post_title,
+            event_html: row.post_excerpt,
             author_id: row.author_id,
             author_name: row.author_name,
             publish_date: row.post_date,
             image: row.image,
             tags: [],
-            cats: []
+            cats: [],
+            event_cats: []
           }
         }
         result[row.post_id].cats.push({
           name: row.term_name,
           slug: row.term_slug
         })
+        result[row.post_id].event_cats.push(row.term_slug)
       })
       const arr = []
       for (let prop in result) {
         arr.push(result[prop])
       }
       arr.sort((a,b) => a.publish_date < b.publish_date ? 1 : -1)
+
+      /* Migration SQL
+      let sql = ''
+      arr.forEach(row => {
+        sql += `UPDATE events
+          SET event_cats = '${row.event_cats}'
+          WHERE event_id = ${row.event_id}; `
+      })
+      c.query(sql)
+      */
       res.send(arr)
     })
+})
+
+app.get('/api/v2/events', (req, res) => {
+  c.query(`
+    SELECT *
+    FROM events e
+    LEFT JOIN event_slots s
+    ON s.event_id = e.event_id    
+    `, null, {}, (e, rows) => {
+    const events = {}
+    rows.forEach(r => {
+      if (!events[r.event_id]) {
+        events[r.event_id] = {
+          eventId: r.event_id,
+          eventTitle: r.event_title,
+          imageUrl: r.image_url,
+          eventCats: r.event_cats.split(','),
+          slots: [],
+          startDate: r.start_date // TODO: find the earliest
+        }
+      }
+      events[r.event_id].slots.push({
+        startDate: r.start_date,
+        endDate: r.end_date,
+        slotTitle: r.slot_title,
+        slotId: r.slot_id
+      })
+    })
+    const eventArr = []
+    for (let prop in events) {
+      eventArr.push(events[prop])
+    }
+    eventArr.sort((a,b) => a.startDate < b.startDate ? 1 : -1)
+    res.send(eventArr)
+  })
 })
 
 app.get('/api/members', (req, res) => {
@@ -167,6 +213,14 @@ app.get('/api/about', (req, res) => {
 
 app.get('/api/posts/:id', (req, res) => {
   c.query('SELECT * FROM wp_posts p where p.ID = :id', {
+    id: req.params.id
+  }, (err, rows) => {
+    res.send(rows[0])
+  })
+})
+
+app.get('/api/v2/events/:id', (req, res) => {
+  c.query('SELECT * FROM events where event_id = :id', {
     id: req.params.id
   }, (err, rows) => {
     res.send(rows[0])
