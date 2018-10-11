@@ -1,6 +1,5 @@
 <template>
-  <div id="app">
-    <h1>My Calendar</h1>
+  <div class="fp-calender">
     <calendar-view
       :show-date="showDate"
       :events="slots"
@@ -22,8 +21,7 @@ export default {
   name: 'app',
   data () {
     return {
-      showDate: new Date(),
-      events: []
+      showDate: new Date()
     }
   },
   computed: {
@@ -41,6 +39,9 @@ export default {
         })
       })
       return arr
+    },
+    events () {
+      return this.$store.getters.allEvents
     }
   },
   components: {
@@ -64,19 +65,12 @@ export default {
     }
   },
   created () {
-    this.$http.get('/v2/events').then(res => {
-      this.events = res
-    })
+    this.$store.dispatch('FETCH_ALL_EVENTS')
   }
 }
 </script>
-<style>
-  #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    color: #2c3e50;
-    height: 67vh;
-    width: 90vw;
-    margin-left: auto;
-    margin-right: auto;
-  }
+<style lang="stylus">
+  .fp-calender
+    height 600px
+    margin 40px 20px
 </style>

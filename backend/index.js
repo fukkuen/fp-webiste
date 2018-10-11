@@ -50,34 +50,37 @@ app.get('/api/v1/posts', (req, res) => {
         AND wp.post_type = 'post'
         AND m.meta_key = '_thumbnail_id'
       `, null, {}, (e, rows) => {
-    const result = {}
-    rows.forEach(row => {
-      if (!result[row.post_id]) {
-        result[row.post_id] = {
-          post_id: row.post_id,
-          post_title: row.post_title,
-          post_excerpt: row.post_excerpt,
-          author_id: row.author_id,
-          author_name: row.author_name,
-          publish_date: row.post_date,
-          image: row.image,
-          tags: [],
-          cats: []
+      const result = {}
+      rows.forEach(row => {
+        if (!result[row.post_id]) {
+          result[row.post_id] = {
+            post_id: row.post_id,
+            post_title: row.post_title,
+            post_excerpt: row.post_excerpt,
+            author_id: row.author_id,
+            author_name: row.author_name,
+            publish_date: row.post_date,
+            image: row.image,
+            tags: [],
+            cats: []
+          }
         }
-      }
-      const key = row.taxonomy === 'category' ? 'cats' : 'tags'
-      result[row.post_id][key].push({
-        name: row.term_name,
-        slug: row.term_slug
+        const key = row.taxonomy === 'category' ? 'cats' : 'tags'
+        result[row.post_id][key].push({
+          name: row.term_name,
+          slug: row.term_slug
+        })
       })
+      let arr = []
+      for (let prop in result) {
+        arr.push(result[prop])
+      }
+      arr.sort((a,b) => a.publish_date < b.publish_date ? 1 : -1)
+      if (req.query.limit) {
+        arr = arr.slice(0, req.query.limit)
+      }
+      res.send(arr)
     })
-    const arr = []
-    for (let prop in result) {
-      arr.push(result[prop])
-    }
-    arr.sort((a,b) => a.publish_date < b.publish_date ? 1 : -1)
-    res.send(arr)
-  })
 })
 
 
@@ -203,13 +206,6 @@ app.get('/api/members', (req, res) => {
   })
 })
 
-app.get('/api/about', (req, res) => {
-  c.query(`SELECT *
-    FROM wp_posts wp
-    WHERE wp.ID = 2`, null, {}, (e, row) => {
-    res.send(row && row[0])
-  })
-})
 
 app.get('/api/v1/posts/:id', (req, res) => {
   c.query('SELECT * FROM wp_posts p where p.ID = :id', {
@@ -225,10 +221,6 @@ app.get('/api/v2/events/:id', (req, res) => {
   }, (err, rows) => {
     res.send(rows[0])
   })
-})
-
-app.get('/api/test', (req, res) => {
-  res.send('here!')
 })
 
 app.listen(3000, () => {

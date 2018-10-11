@@ -24,8 +24,8 @@ export default new Vuex.Store({
     event: {}
   },
   mutations: {
-    SET_RECENT_POST (state, posts) {
-
+    SET_RECENT_POST_IDS (state, ids) {
+      state.recentPostIds = ids
     },
     SET_ALL_POSTS (state, postIds) {
       state.allPostIds = postIds
@@ -45,9 +45,6 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    FETCH_HOME () {
-
-    },
     async FETCH_ALL_EVENTS ({commit}) {
       try {
         const res = await http.get('/v2/events')
@@ -55,6 +52,16 @@ export default new Vuex.Store({
         console.log(result, entities)
         commit('SET_ENTITIES', entities)
         commit('SET_ALL_EVENTS', result)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    async FETCH_RECENT_POSTS ({commit}) {
+      try {
+        const res = await http.get('/v1/posts?limit=3')
+        const {result, entities} = normalize(res, postListSchema)
+        commit('SET_ENTITIES', entities)
+        commit('SET_RECENT_POST_IDS', result)
       } catch (e) {
         console.log(e)
       }
@@ -107,11 +114,15 @@ export default new Vuex.Store({
       return state.post[id]
     },
     event: (state) => (id) => {
-      console.log(id, state.event)
       return state.event[id]
     },
     allPosts (state) {
       return denormalize(state.allPostIds, postListSchema, {
+        post: state.post
+      })
+    },
+    recentPosts (state) {
+      return denormalize(state.recentPostIds, postListSchema, {
         post: state.post
       })
     }

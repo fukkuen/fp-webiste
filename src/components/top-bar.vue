@@ -1,7 +1,8 @@
 <template lang="pug">
   .top-bar
     .top-bar-logo
-      img(src="http://floatingprojectscollective.net/wp-content/uploads/2010/02/fp_logo_web.png" height="58" style="margin-right: 6px")
+      router-link(to="/")
+        img(src="http://floatingprojectscollective.net/wp-content/uploads/2010/02/fp_logo_web.png" height="58" style="margin-right: 6px")
       // img(class="top-bar-logo__type" src="http://floatingprojectscollective.net/wp-content/uploads/2018/09/logotype-2018-09-15.png" height="50")
     .top-bar-menu
       .top-bar-social

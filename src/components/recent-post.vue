@@ -2,24 +2,27 @@
   .recent-post
     h2(class="mb-20") 最近文章 Recent Posts
     vi-spinner(v-if="!posts")
-    a(v-else v-for="(post, i) in posts" :key="i" :href="post.link" target="_blank")
-      vi-item(link height="70")
-        vi-item-content
-          vi-item-title(v-html="post.title.rendered")
-          vi-item-subtitle {{post.date | dateFormat}}
+    router-link(v-else v-for="post in posts" :to="{name: 'post-detail', params: {id: post.post_id}}" :key="post.post_id")
+      post-item(:post="post")
 </template>
 
 <script>
+  import postItem from './post-item'
+
   export default {
-    data () {
-      return {
-        posts: null
+    components: {
+      postItem
+    },
+
+    computed: {
+      posts () {
+        return this.$store.getters.recentPosts
       }
     },
+
     created () {
-      this.$http.get('http://floatingprojectscollective.net/wp-json/wp/v2/posts?per_page=3').then(res => {
-        this.posts = res
-      })
+      this.$store.dispatch('FETCH_RECENT_POSTS')
+      this.$store.dispatch('FETCH_ALL_EVENTS')
     }
   }
 </script>

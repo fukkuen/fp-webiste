@@ -1,12 +1,6 @@
 <template lang="pug">
   #app
     FpCalendar
-    .hero-section
-      .hero-section__container
-        .hero-section__l
-          HomeSlide
-        .hero-section__r
-          OralCalender
     .bottom-section
       vi-container
         recent-post
