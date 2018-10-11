@@ -1,28 +1,27 @@
 <template lang="pug">
   vi-container.event-detail
-    h2 {{event.eventTitle}}
-    div(v-html="event.eventHtml")
+    vi-spinner(v-if="!event")
+    div(v-else)
+      h1 {{event.event_title}}
+      div(v-html="event.event_html")
 </template>
 
 <script>
   export default {
     name: 'event-detail-view',
 
-    data () {
-      return {
-        event: {}
-      }
-    },
-
     computed: {
       $id () {
         return this.$route.params.id
+      },
+      event () {
+        return this.$store.getters.event(this.$id)
       }
     },
 
     created () {
-      this.$http.get(`v2/events/${this.$id}`).then(res => {
-        this.event = res
+      this.$store.dispatch('FETCH_EVENT_DETAIL', {
+        eventId: this.$id
       })
     }
   }

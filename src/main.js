@@ -6,6 +6,7 @@ import Yolo from './yolo/lib'
 import VueCarousel from './components/vue-carousel'
 import './components'
 import router from './router'
+import store from './store'
 import './plugin'
 
 Vue.use(VueCarousel)
@@ -16,6 +17,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

@@ -1,7 +1,7 @@
 <template lang="pug">
   .event-list
     vi-container
-      vi-spinner(v-if="!events")
+      vi-spinner(v-if="!filteredEvents")
       router-link(v-else v-for="event in filteredEvents" :to="{name: 'event-detail', params: {id: event.eventId}}" :key="event.eventId")
         event-item(:event="event")
 </template>
@@ -13,27 +13,22 @@ export default {
 
   components: { EventItem },
 
-  data () {
-    return {
-      events: null
-    }
-  },
-
   computed: {
     $catSlug () {
       return this.$route.params.catSlug
     },
+    events () {
+      return this.$store.getters.allEvents
+    },
     filteredEvents () {
-      if (!this.events) return
+      if (!this.events) return null
       return this.events // TODO
       // return this.events.filter(p => p.cats.map(c => c.slug).includes(this.$catSlug))
     }
   },
 
   created () {
-    this.$http.get('/v2/events').then(res => {
-      this.events = res
-    })
+    this.$store.dispatch('FETCH_ALL_EVENTS')
   }
 }
 </script>

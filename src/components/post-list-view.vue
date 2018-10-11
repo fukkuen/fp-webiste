@@ -1,6 +1,5 @@
 <template lang="pug">
   .post-list
-    button(v-for="c in categories" @click="filter = c.id" :key="c.id") {{c.id}}
     vi-container
       vi-spinner(v-if="!posts")
       router-link(v-else v-for="post in filteredPosts" :to="{name: 'post-detail', params: {id: post.post_id}}" :key="post.post_id")
@@ -17,6 +16,9 @@ export default {
   },
 
   computed: {
+    posts () {
+      return this.$store.getters.allPosts
+    },
     $catSlug () {
       return this.$route.params.catSlug
     },
@@ -28,7 +30,6 @@ export default {
 
   data () {
     return {
-      posts: null,
       categories: [
         {
           id: 'coffee-fantasia'
@@ -51,9 +52,7 @@ export default {
   },
 
   created () {
-    this.$http.get('/posts').then(res => {
-      this.posts = res
-    })
+    this.$store.dispatch('FETCH_ALL_POSTS')
   }
 }
 </script>

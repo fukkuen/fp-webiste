@@ -20,9 +20,9 @@ c.query('SHOW DATABASES', null, { metadata: true }, function(err, rows) {
     throw err;
 });
 
-app.get('/api/posts', (req, res) => {
+app.get('/api/v1/posts', (req, res) => {
   c.query(
-    `SELECT 
+    `SELECT
         wp.ID as post_id, 
         wp.post_title, 
         wp.post_excerpt,
@@ -211,7 +211,7 @@ app.get('/api/about', (req, res) => {
   })
 })
 
-app.get('/api/posts/:id', (req, res) => {
+app.get('/api/v1/posts/:id', (req, res) => {
   c.query('SELECT * FROM wp_posts p where p.ID = :id', {
     id: req.params.id
   }, (err, rows) => {

@@ -20,7 +20,7 @@ export default new Router({
     },
     {
       name: 'post-list',
-      path: '/posts/:catSlug',
+      path: '/posts/category/:catSlug',
       component: PostListView
     },
     {

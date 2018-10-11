@@ -1,30 +1,27 @@
 <template lang="pug">
   vi-container.post-detail
-    h2 {{post.post_title}}
-    div(v-html="post.post_content")
+    vi-spinner(v-if="!post")
+    template(v-else)
+       h2 {{post.post_title}}
+       div(v-html="post.post_content")
 </template>
 
 <script>
   export default {
-    name: 'abc',
-
-    data () {
-      return {
-        post: {}
-      }
-    },
+    name: 'post-detail',
 
     computed: {
       $id () {
         return this.$route.params.id
+      },
+      post () {
+        return this.$store.getters.post(this.$id)
       }
     },
 
     created () {
-      console.log('hi')
-      this.$http.get(`/posts/${this.$id}`).then(res => {
-        console.log(res)
-        this.post = res
+      this.$store.dispatch('FETCH_POST_DETAIL', {
+        postId: this.$id
       })
     }
   }
