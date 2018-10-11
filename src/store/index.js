@@ -49,7 +49,6 @@ export default new Vuex.Store({
       try {
         const res = await http.get('/v2/events')
         const {result, entities} = normalize(res, eventListSchema)
-        console.log(result, entities)
         commit('SET_ENTITIES', entities)
         commit('SET_ALL_EVENTS', result)
       } catch (e) {

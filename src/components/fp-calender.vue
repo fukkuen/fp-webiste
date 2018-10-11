@@ -26,6 +26,7 @@ export default {
   },
   computed: {
     slots () {
+      if (!this.events) return []
       const arr = []
       this.events.forEach(e => {
         e.slots.forEach(s => {
@@ -33,11 +34,12 @@ export default {
             startDate: s.startDate,
             endDate: s.endDate,
             title: s.slotTitle || e.eventTitle,
-            id: s.slotId,
+            id: Math.random(),
             url: e.eventId
           })
         })
       })
+      console.log(this.events)
       return arr
     },
     events () {
