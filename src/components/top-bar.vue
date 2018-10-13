@@ -269,6 +269,7 @@
     text-align: center
     position relative
     padding-top 40px
+    padding-bottom 40px
 
     @media(max-width 900px)
       padding-top 0

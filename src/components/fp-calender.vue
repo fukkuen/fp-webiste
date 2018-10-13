@@ -74,5 +74,5 @@ export default {
 <style lang="stylus">
   .fp-calender
     height 600px
-    margin 40px 20px
+    margin 20px 20px 40px
 </style>
