@@ -69,6 +69,10 @@ export default new Vuex.Store({
       try {
         const res = await http.get('/v1/posts')
         const {result, entities} = normalize(res, postListSchema)
+        res.forEach(p => {
+          let a = p.image
+          p.image_sm = a.slice(0, a.length - 4) + '_abc_' + a.slice(a.length - 4, a.length)
+        })
         commit('SET_ENTITIES', entities)
         commit('SET_ALL_POSTS', result)
       } catch (e) {

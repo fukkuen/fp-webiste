@@ -2,8 +2,13 @@
   vi-container.post-detail
     vi-spinner(v-if="!post")
     template(v-else)
-       h2 {{post.post_title}}
-       div(v-html="post.post_content")
+      img(:src="post.image" width="100%")
+      h2 {{post.post_title}}
+      div.post-content(v-html="post.post_content")
+      vi-chip(v-for="(tag, i) in post.tags" :key="i" class="mr-2 mb-2") {{tag.name}}
+      div {{post.author_name}}
+      div {{post.post_date}}
+      vi-chip(v-for="(tag, i) in post.cats" :key="i" class="mr-2 mb-2") {{tag.name}}
 </template>
 
 <script>
@@ -28,5 +33,7 @@
 </script>
 
 <style lang="stylus">
-
+  .post-content img
+    float left
+    margin 20px 20px 20px 0
 </style>

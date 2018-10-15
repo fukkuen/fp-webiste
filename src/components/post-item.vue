@@ -1,7 +1,7 @@
 <template lang="pug">
   .post-item
     .post-item__l
-      vi-img(:src="post.image" height="200px")
+      vi-img(:src="post.imageSm" height="200px")
     .post-item__r
       h3 {{post.post_title}}
       p {{post.post_excerpt}}

@@ -1,6 +1,7 @@
 var express = require('express')
 var app = express()
 var Client = require('mariasql');
+var wpautop = require('./wpautop')
 
 //配置相关信息
 var c = new Client({
@@ -52,6 +53,7 @@ app.get('/api/v1/posts', (req, res) => {
       `, null, {}, (e, rows) => {
       const result = {}
       rows.forEach(row => {
+        let a = row.image
         if (!result[row.post_id]) {
           result[row.post_id] = {
             post_id: row.post_id,
@@ -61,6 +63,7 @@ app.get('/api/v1/posts', (req, res) => {
             author_name: row.author_name,
             publish_date: row.post_date,
             image: row.image,
+            imageSm: a.slice(0, a.length - 4) + '-468x328' + a.slice(a.length - 4, a.length),
             tags: [],
             cats: []
           }
@@ -211,6 +214,8 @@ app.get('/api/v1/posts/:id', (req, res) => {
   c.query('SELECT * FROM wp_posts p where p.ID = :id', {
     id: req.params.id
   }, (err, rows) => {
+    const post = rows[0]
+    post.post_content = wpautop(post.post_content)
     res.send(rows[0])
   })
 })

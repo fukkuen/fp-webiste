@@ -86,4 +86,7 @@ export default {
     margin 0 auto
     padding 20px 0
     max-width 1000px
+
+  p
+    margin 20px 0
 </style>
