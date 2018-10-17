@@ -5,10 +5,10 @@
       img(:src="post.image" width="100%")
       h2 {{post.post_title}}
       div.post-content(v-html="post.post_content")
-      vi-chip(v-for="(tag, i) in post.tags" :key="i" class="mr-2 mb-2") {{tag.name}}
+      vi-chip(v-for="(tag, i) in post.tags" :key="tag.slug" class="mr-2 mb-2") {{tag.name}}
       div {{post.author_name}}
       div {{post.post_date}}
-      vi-chip(v-for="(tag, i) in post.cats" :key="i" class="mr-2 mb-2") {{tag.name}}
+      vi-chip(v-for="(tag, i) in post.cats" :key="tag.slug" class="mr-2 mb-2") {{tag.name}}
 </template>
 
 <script>

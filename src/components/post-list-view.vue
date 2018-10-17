@@ -1,13 +1,14 @@
 <template lang="pug">
   .post-list
     vi-container
-      vi-spinner(v-if="!posts")
-      router-link(v-else v-for="post in filteredPosts" :to="{name: 'post-detail', params: {id: post.post_id}}" :key="post.post_id")
-        post-item(:post="post")
+      vi-spinner(v-if="!filteredPosts")
+      virtual-scroller(v-else :items="filteredPosts" item-height="200" :page-mode="true")
+        post-item(slot-scope="{item, itemKey}" :post="item")
 </template>
 
 <script>
 import postItem from './post-item'
+
 export default {
   name: 'post-list',
 
@@ -23,7 +24,7 @@ export default {
       return this.$route.params.catSlug
     },
     filteredPosts () {
-      if (!this.posts) return
+      if (!this.posts) return null
       return this.posts.filter(p => p.cats.map(c => c.slug).includes(this.$catSlug))
     }
   },

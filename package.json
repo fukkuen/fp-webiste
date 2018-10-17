@@ -21,6 +21,7 @@
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vue-simple-calendar": "^4.1.0",
+    "vue-virtual-scroller": "0.12.2",
     "vuex": "^3.0.1"
   },
   "devDependencies": {

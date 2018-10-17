@@ -21,7 +21,7 @@
             .top-bar-menu__item-title {{item.title.zh}}
               vi-icon(name="down")
             .top-bar-menu__item-subtitle {{item.title.en}}
-          router-link(v-for="item in item.children" :to="item.href")
+          router-link(v-for="(item,i) in item.children" :to="item.href" :key="i")
             vi-item(link height="70")
               vi-item-content
                 vi-item-title {{item.zh}}

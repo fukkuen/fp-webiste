@@ -4,11 +4,13 @@ import Vue from 'vue'
 import App from './App'
 import Yolo from './yolo/lib'
 import VueCarousel from './components/vue-carousel'
+import VueVirtualScroller from 'vue-virtual-scroller'
 import './components'
 import router from './router'
 import store from './store'
 import './plugin'
 
+Vue.use(VueVirtualScroller)
 Vue.use(VueCarousel)
 Vue.use(Yolo)
 Vue.config.productionTip = false

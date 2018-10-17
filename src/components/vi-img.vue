@@ -46,6 +46,8 @@
 
 <style lang="stylus">
   .vi-img
+    border-radius 10px
+
     &:hover
       background #fff6e8
 </style>
