@@ -1,28 +1,38 @@
+var pool = require('./database')
 var express = require('express')
 var app = express()
-var Client = require('mariasql');
 var wpautop = require('./wpautop')
+var eventsApi = require('./events-api')
+var bodyParser = require('body-parser');
+app.use(bodyParser.json())
 
-//配置相关信息
-var c = new Client({
-  host: 'wordpress-db.cfbf3bfcunf4.us-east-2.rds.amazonaws.com',
-  //用户名
-  user: 'fukkuen',
-  //密码默认为空
-  password: 'Yy27022070',
-  //使用哪个数据库
-  db: 'floatingprojectscollective_net',
+// pool.query('SHOW DATABASES', null, { metadata: true }, function(err, rows) {
+//   console.log('hi', rows)
+//   if (err)
+//     throw err;
+// });
 
-  charset: 'utf8'
-});
+const testConnection = async () => {
+  try {
+    const res = await pool.query('SHOW DATABASES')
+    console.log(res)
+  } catch (e) {
+    console.log(e)
+  }
+}
+// testConnection()
 
-c.query('SHOW DATABASES', null, { metadata: true }, function(err, rows) {
-  if (err)
-    throw err;
-});
+// pool.query('SHOW DATABASES').then(rows => {
+//   console.log(rows)
+// })
+
+app.post('/test', (req,res) => {
+  console.log(req.body)
+  res.send('ok')
+})
 
 app.get('/api/v1/posts', (req, res) => {
-  c.query(
+  pool.query(
     `SELECT
         wp.ID as post_id, 
         wp.post_title, 
@@ -88,7 +98,7 @@ app.get('/api/v1/posts', (req, res) => {
 
 
 app.get('/api/events', (req, res) => {
-  c.query(
+  pool.query(
     `SELECT 
         wp.ID as post_id, 
         wp.post_title, 
@@ -153,51 +163,15 @@ app.get('/api/events', (req, res) => {
           SET event_cats = '${row.event_cats}'
           WHERE event_id = ${row.event_id}; `
       })
-      c.query(sql)
+      pool.query(sql)
       */
       res.send(arr)
     })
 })
 
-app.get('/api/v2/events', (req, res) => {
-  c.query(`
-    SELECT *
-    FROM events e
-    LEFT JOIN event_slots s
-    ON s.event_id = e.event_id    
-    `, null, {}, (e, rows) => {
-    const events = {}
-    rows.forEach(r => {
-      let a = r.image_url
-      if (!events[r.event_id]) {
-        events[r.event_id] = {
-          eventId: r.event_id,
-          eventTitle: r.event_title,
-          imageUrl: r.image_url,
-          imageUrlSm: a.slice(0, a.length - 4) + '-468x328' + a.slice(a.length - 4, a.length),
-          eventCats: r.event_cats.split(','),
-          slots: [],
-          startDate: r.start_date // TODO: find the earliest
-        }
-      }
-      events[r.event_id].slots.push({
-        startDate: r.start_date,
-        endDate: r.end_date,
-        slotTitle: r.slot_title,
-        slotId: r.slot_id
-      })
-    })
-    const eventArr = []
-    for (let prop in events) {
-      eventArr.push(events[prop])
-    }
-    eventArr.sort((a,b) => a.startDate < b.startDate ? 1 : -1)
-    res.send(eventArr)
-  })
-})
 
 app.get('/api/members', (req, res) => {
-  c.query(`SELECT wp.post_title as member_name, wp2.guid as image
+  pool.query(`SELECT wp.post_title as member_name, wp2.guid as image
     FROM wp_posts wp
     LEFT JOIN wp_postmeta m
     ON m.post_id = wp.ID
@@ -211,9 +185,8 @@ app.get('/api/members', (req, res) => {
   })
 })
 
-
 app.get('/api/v1/posts/:id', (req, res) => {
-  c.query('SELECT * FROM wp_posts p where p.ID = :id', {
+  pool.query('SELECT * FROM wp_posts p where p.ID = :id', {
     id: req.params.id
   }, (err, rows) => {
     const post = rows[0]
@@ -222,15 +195,7 @@ app.get('/api/v1/posts/:id', (req, res) => {
   })
 })
 
-app.get('/api/v2/events/:id', (req, res) => {
-  c.query('SELECT * FROM events where event_id = :id', {
-    id: req.params.id
-  }, (err, rows) => {
-    let event = rows[0]
-    event.event_html = wpautop(event.event_html)
-    res.send(rows[0])
-  })
-})
+app.use('/api/v2/events', eventsApi)
 
 app.listen(3000, () => {
   console.log('Server listening on port 3000')
