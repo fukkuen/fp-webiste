@@ -1,9 +1,10 @@
 <template lang="pug">
   .event-item
     .event-item__l
-      vi-img(:src="event.imageUrl" height="200px")
+      vi-img(:src="event.imageUrlSm" height="200px")
     .event-item__r
-      h3 {{event.eventTitle}}
+      router-link(:to="{name: 'event-detail', params: {id: event.eventId}}" :key="event.eventId")
+        h3 {{event.eventTitle}}
       div
         router-link(v-for="(cat,i) in event.eventCats" :key="i" :to="{name: 'event-list', params:{catSlug: cat}}")
           vi-chip(class="mr-2") {{cat}}
@@ -25,7 +26,10 @@ export default {
 <style lang="stylus">
   .event-item
     display flex
-    margin 40px 0
+    height 200px
+
+    &:not(:last-child)
+      margin-bottom 40px
 
     &__l
       flex-shrink 0

@@ -168,11 +168,13 @@ app.get('/api/v2/events', (req, res) => {
     `, null, {}, (e, rows) => {
     const events = {}
     rows.forEach(r => {
+      let a = r.image_url
       if (!events[r.event_id]) {
         events[r.event_id] = {
           eventId: r.event_id,
           eventTitle: r.event_title,
           imageUrl: r.image_url,
+          imageUrlSm: a.slice(0, a.length - 4) + '-468x328' + a.slice(a.length - 4, a.length),
           eventCats: r.event_cats.split(','),
           slots: [],
           startDate: r.start_date // TODO: find the earliest
@@ -224,6 +226,8 @@ app.get('/api/v2/events/:id', (req, res) => {
   c.query('SELECT * FROM events where event_id = :id', {
     id: req.params.id
   }, (err, rows) => {
+    let event = rows[0]
+    event.event_html = wpautop(event.event_html)
     res.send(rows[0])
   })
 })

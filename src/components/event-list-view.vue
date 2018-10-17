@@ -2,8 +2,8 @@
   .event-list
     vi-container
       vi-spinner(v-if="!filteredEvents")
-      router-link(v-else v-for="event in filteredEvents" :to="{name: 'event-detail', params: {id: event.eventId}}" :key="event.eventId")
-        event-item(:event="event")
+      virtual-scroller(v-else :items="filteredEvents" item-height="200" :page-mode="true")
+        event-item(slot-scope="{item}" :event="item" :key="item.eventId")
 </template>
 
 <script>
@@ -22,8 +22,7 @@ export default {
     },
     filteredEvents () {
       if (!this.events) return null
-      return this.events // TODO
-      // return this.events.filter(p => p.cats.map(c => c.slug).includes(this.$catSlug))
+      return this.events.filter(p => p.eventCats.includes(this.$catSlug))
     }
   },
 
