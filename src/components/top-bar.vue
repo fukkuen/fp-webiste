@@ -39,7 +39,7 @@
             .top-bar-menu__item(slot="header")
               .top-bar-menu__item-title {{item.title.zh}}
               .top-bar-menu__item-subtitle {{item.title.en}}
-            a(v-for="item in item.children" :href="item.href" target="_blank")
+            router-link(v-for="item in item.children" :to="item.href" :key="item.href.en")
               vi-item(link height="70")
                 vi-item-content
                   vi-item-title {{item.zh}}

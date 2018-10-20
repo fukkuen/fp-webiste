@@ -4,9 +4,9 @@
       vi-img(:src="event.imageUrlSm" height="200px")
     .event-item__r
       router-link(:to="{name: 'event-detail', params: {id: event.eventId}}" :key="event.eventId")
-        h3 {{event.eventTitle}}
+        h3 {{event.title}}
       div
-        router-link(v-for="(cat,i) in event.eventCats" :key="i" :to="{name: 'event-list', params:{catSlug: cat}}")
+        router-link(v-for="(cat,i) in event.cats" :key="i" :to="{name: 'event-list', params:{catSlug: cat}}")
           vi-chip(class="mr-2") {{cat}}
       div {{event.startDate}}
 </template>

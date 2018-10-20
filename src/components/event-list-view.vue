@@ -22,7 +22,7 @@ export default {
     },
     filteredEvents () {
       if (!this.events) return null
-      return this.events.filter(p => p.eventCats.includes(this.$catSlug))
+      return this.events.filter(p => p.cats.includes(this.$catSlug))
     }
   },
 
