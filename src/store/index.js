@@ -45,9 +45,12 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    async TEST () {
+      http.get('/test')
+    },
     async FETCH_ALL_EVENTS ({commit}) {
       try {
-        const res = await http.get('/v2/events')
+        const res = await http.get('/events/getAllEvents')
         const {result, entities} = normalize(res, eventListSchema)
         commit('SET_ENTITIES', entities)
         commit('SET_ALL_EVENTS', result)

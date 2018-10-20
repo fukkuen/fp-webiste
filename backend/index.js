@@ -4,31 +4,23 @@ var app = express()
 var wpautop = require('./wpautop')
 var eventsApi = require('./events-api')
 var bodyParser = require('body-parser');
+var chalk = require('chalk');
 app.use(bodyParser.json())
-
-// pool.query('SHOW DATABASES', null, { metadata: true }, function(err, rows) {
-//   console.log('hi', rows)
-//   if (err)
-//     throw err;
-// });
 
 const testConnection = async () => {
   try {
-    const res = await pool.query('SHOW DATABASES')
-    console.log(res)
+    await pool.query('SHOW DATABASES')
+    console.log('connected to DB')
   } catch (e) {
-    console.log(e)
+    console.log('Error', e)
   }
 }
-// testConnection()
 
-// pool.query('SHOW DATABASES').then(rows => {
-//   console.log(rows)
-// })
+testConnection()
 
-app.post('/test', (req,res) => {
-  console.log(req.body)
-  res.send('ok')
+app.use((req, res, next) => {
+  console.log(chalk.cyan(req.path))
+  next()
 })
 
 app.get('/api/v1/posts', (req, res) => {
@@ -97,7 +89,7 @@ app.get('/api/v1/posts', (req, res) => {
 })
 
 
-app.get('/api/events', (req, res) => {
+app.get('/api/v1/events', (req, res) => {
   pool.query(
     `SELECT 
         wp.ID as post_id, 
@@ -195,7 +187,15 @@ app.get('/api/v1/posts/:id', (req, res) => {
   })
 })
 
-app.use('/api/v2/events', eventsApi)
+// app.get('/api/events', (req, res) => {
+//   res.sendStatus(200)
+// })
+
+app.get('/api/test', (req, res) => {
+  res.sendStatus(200)
+})
+
+app.use('/api/events', eventsApi)
 
 app.listen(3000, () => {
   console.log('Server listening on port 3000')

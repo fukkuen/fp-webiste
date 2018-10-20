@@ -3,20 +3,24 @@
     FpCalendar
     .bottom-section
       vi-container
-        recent-post
+        // recent-post
 </template>
 
 <script>
-  import OralCalender from './oral-calender'
-  import RecentPost from './recent-post'
-  import HomeSlide from './home-slider'
-  import FpCalendar from './fp-calender'
+import OralCalender from './oral-calender'
+import RecentPost from './recent-post'
+import HomeSlide from './home-slider'
+import FpCalendar from './fp-calender'
 
-  export default {
-    name: 'App',
+export default {
+  name: 'App',
 
-    components: {OralCalender, RecentPost, HomeSlide, FpCalendar},
+  components: {OralCalender, RecentPost, HomeSlide, FpCalendar},
+
+  created () {
+    this.$store.dispatch('TEST')
   }
+}
 </script>
 
 <style lang="stylus">

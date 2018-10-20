@@ -3,12 +3,6 @@ var router = express.Router()
 var pool = require('./database')
 var wpautop = require('./wpautop')
 
-// middleware that is specific to this router
-router.use(function timeLog (req, res, next) {
-  // console.log('Time: ', Date.now())
-  next()
-})
-
 /**
  * get all the events in the database
  * frontend side will do the filtering
@@ -38,10 +32,10 @@ router.get('/getEvent/:eventId', async (req, res) => {
 })
 
 /**
- * Create or edit an event, include the slots
+ * Create an event, include the slots
  * This will insert data into two different table
  */
-router.post('/setEvent', async (req, res) => {
+router.post('/createEvent', async (req, res) => {
   const {title, html, cats, imageUrl, slots} = req.body
   const {insertId} = await pool.query(`
     INSERT INTO events (event_title, event_html, event_cats, image_url)
@@ -59,6 +53,33 @@ router.post('/setEvent', async (req, res) => {
   } catch (e) {
     console.log(e)
   }
+  res.send('done')
+})
+
+/**
+ * Edit an event, include the slots
+ * This will insert data into two different table
+ */
+router.post('/editEvent', async (req, res) => {
+  const {title, html, cats, imageUrl, slots, eventId} = req.body
+  try {
+    pool.query(`
+      UPDATE events
+      SET event_title = ?, event_html = ?, event_cats = ?, image_url = ?
+      WHERE event_id = ?
+    `, [title, html, cats, imageUrl, eventId])
+  } catch (e) {
+    console.log(e)
+  }
+  // let query = 'INSERT INTO event_slots (event_id, start_date, end_date, slot_title) VALUES '
+  slots.forEach(s => {
+    const {slotId, startDate, endDate, title} = s
+    pool.query(`
+      UPDATE event_slots
+      SET start_date = ?, end_date = ?, slot_title = ?
+      WHERE slot_id = ?
+    `, [startDate, endDate, title, slotId])
+  })
   res.send('done')
 })
 
