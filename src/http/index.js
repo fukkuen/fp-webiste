@@ -18,9 +18,7 @@ class Http {
 
   async post (url, data) {
     try {
-      const res = await this.http.post(url, {
-        params: data
-      })
+      const res = await this.http.post(url, data)
       return res.data
     } catch (e) {
       return this.handleException(e)

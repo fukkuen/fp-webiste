@@ -20,6 +20,7 @@ testConnection()
 
 app.use((req, res, next) => {
   console.log(chalk.cyan(req.path))
+  console.log(chalk.yellow(JSON.stringify(req.body)))
   next()
 })
 

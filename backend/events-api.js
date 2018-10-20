@@ -61,7 +61,13 @@ router.post('/createEvent', async (req, res) => {
  * This will insert data into two different table
  */
 router.post('/editEvent', async (req, res) => {
-  const {title, html, cats, imageUrl, slots, eventId} = req.body
+  let {title, html, cats, imageUrl, slots, eventId} = req.body.form
+  try {
+    cats = cats.join(',')
+  } catch (e) {
+    res.send('Cats should be an array')
+  }
+  console.log(cats)
   try {
     pool.query(`
       UPDATE events
@@ -72,14 +78,14 @@ router.post('/editEvent', async (req, res) => {
     console.log(e)
   }
   // let query = 'INSERT INTO event_slots (event_id, start_date, end_date, slot_title) VALUES '
-  slots.forEach(s => {
-    const {slotId, startDate, endDate, title} = s
-    pool.query(`
-      UPDATE event_slots
-      SET start_date = ?, end_date = ?, slot_title = ?
-      WHERE slot_id = ?
-    `, [startDate, endDate, title, slotId])
-  })
+  // slots.forEach(s => {
+  //   const {slotId, startDate, endDate, title} = s
+  //   pool.query(`
+  //     UPDATE event_slots
+  //     SET start_date = ?, end_date = ?, slot_title = ?
+  //     WHERE slot_id = ?
+  //   `, [startDate, endDate, title, slotId])
+  // })
   res.send('done')
 })
 

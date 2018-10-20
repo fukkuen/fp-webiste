@@ -4,6 +4,7 @@ import PostListView from '../components/post-list-view'
 import EventListView from '../components/event-list-view'
 import PostDetailView from '../components/post-detail-view'
 import EventDetailView from '../components/event-detail-view'
+import EventEditView from '../components/event-edit-view'
 import MemberListView from '../components/member-list'
 import HomeView from '../components/home-view'
 import AboutView from '../components/about-view'
@@ -37,6 +38,12 @@ export default new Router({
       name: 'event-detail',
       path: '/events/:id',
       component: EventDetailView
+    },
+    {
+      name: 'event-edit',
+      path: '/events/edit/:eventId',
+      component: EventEditView,
+      props: true
     },
     {
       name: 'member-list',
