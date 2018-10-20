@@ -2,8 +2,8 @@
   vi-container.event-detail
     vi-spinner(v-if="!event")
     div(v-else)
-      h1 {{event.event_title}}
-      div(v-html="event.event_html")
+      h1 {{event.title}}
+      div(v-html="event.html")
 </template>
 
 <script>

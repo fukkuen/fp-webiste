@@ -58,6 +58,19 @@ export default new Vuex.Store({
         console.log(e)
       }
     },
+    async FETCH_EVENT_DETAIL ({commit}, {eventId}) {
+      try {
+        const res = await http.get(`/events/getEvent/${eventId}`)
+        const entity = {
+          event: {
+            [eventId]: res
+          }
+        }
+        commit('SET_ENTITIES', entity)
+      } catch (e) {
+        console.log(e)
+      }
+    },
     async FETCH_RECENT_POSTS ({commit}) {
       try {
         const res = await http.get('/v1/posts?limit=3')
@@ -88,19 +101,6 @@ export default new Vuex.Store({
         const entity = {
           post: {
             [postId]: res
-          }
-        }
-        commit('SET_ENTITIES', entity)
-      } catch (e) {
-        console.log(e)
-      }
-    },
-    async FETCH_EVENT_DETAIL ({commit}, {eventId}) {
-      try {
-        const res = await http.get(`/v2/events/${eventId}`)
-        const entity = {
-          event: {
-            [eventId]: res
           }
         }
         commit('SET_ENTITIES', entity)

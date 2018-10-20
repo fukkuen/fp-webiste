@@ -28,7 +28,7 @@ router.get('/getEvent/:eventId', async (req, res) => {
     ON s.event_id = e.event_id
     WHERE s.event_id = ?
     `, req.params.eventId)
-  res.send(mergeEventSlot(rows, true))
+  res.send(mergeEventSlot(rows, true)[0])
 })
 
 /**
