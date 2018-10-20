@@ -92,6 +92,10 @@ export default new Vuex.Store({
     },
     async EDIT_EVENT ({commit}, {form}) {
       try {
+        form.slots.forEach(s => {
+          s.startDate = s.startDate && s.startDate.split('T')[0]
+          s.endDate = s.endDate && s.endDate.split('T')[0]
+        })
         await http.post(`/events/editEvent`, {
           form
         })

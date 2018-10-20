@@ -19,18 +19,21 @@
       .input-group
         label End Date
         vi-date-picker(v-model="s.endDate")
+        vi-button(@click="s.endDate = null") Clear
       .input-group
         label Title (optional)
-        vi-input(v-model="s.title" placeholder="Slot Title")
-    vi-button(@click="edit") Edit
+        vi-input(v-model="s.slotTitle" placeholder="Slot Title")
+    vi-button(@click="addSlot") Add another time slot
+    div
+      vi-button(@click="edit") Edit
 </template>
 
 <script>
 const genSlot = () => {
   return {
-    startDate: '',
-    endDate: '',
-    title: ''
+    startDate: null,
+    endDate: null,
+    slotTitle: ''
   }
 }
 export default {
@@ -75,6 +78,10 @@ export default {
     async edit () {
       const payload = {...this.form, ...{eventId: this.eventId}}
       this.$store.dispatch('EDIT_EVENT', {form: payload})
+    },
+
+    addSlot () {
+      this.form.slots.push(genSlot())
     }
   },
 
