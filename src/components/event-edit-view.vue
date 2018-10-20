@@ -1,10 +1,38 @@
 <template lang="pug">
   vi-container.event-detail
-    vi-input(v-model="form.title" placeholder="Event Title")
+    .input-group
+      label Event Title
+      vi-input(v-model="form.title" placeholder="Event Title")
+    .input-group
+      label HTML
+      // div(v-html="form.html")
+    .input-group
+      label Feature Image URL
+      vi-input(v-model="form.imageUrl" placeholder="Image URL")
+    .input-group
+      label Category(s)
+      vi-select(v-model="form.cats" placeholder="Slot Title" :options="$store.state.eventCats" chip)
+    .slot-group(v-for="s in form.slots")
+      .input-group
+        label Start Date
+        vi-date-picker(v-model="s.startDate")
+      .input-group
+        label End Date
+        vi-date-picker(v-model="s.endDate")
+      .input-group
+        label Title (optional)
+        vi-input(v-model="s.title" placeholder="Slot Title")
     vi-button(@click="edit") Edit
 </template>
 
 <script>
+const genSlot = () => {
+  return {
+    startDate: '',
+    endDate: '',
+    title: ''
+  }
+}
 export default {
   name: 'event-detail-view',
 
@@ -16,8 +44,9 @@ export default {
       form: {
         title: '',
         html: '',
-        cats: '',
-        imageUrl: ''
+        cats: [],
+        imageUrl: '',
+        slots: []
       }
     }
   },
@@ -35,12 +64,14 @@ export default {
         eventId: this.eventId
       })
       this.$store.getters.event(this.eventId)
-      const {title, html, cats, imageUrl} = this.$store.getters.event(this.eventId)
+      const {title, html, cats, imageUrl, slots} = this.$store.getters.event(this.eventId)
       this.form.title = title
       this.form.html = html
       this.form.cats = cats
       this.form.imageUrl = imageUrl
+      this.form.slots = JSON.parse(JSON.stringify(slots))
     },
+
     async edit () {
       const payload = {...this.form, ...{eventId: this.eventId}}
       this.$store.dispatch('EDIT_EVENT', {form: payload})
@@ -54,5 +85,19 @@ export default {
 </script>
 
 <style lang="stylus">
+  .input-group
+    display flex
+    align-items center
+    margin-bottom 10px
 
+    > label
+      width 180px
+
+    > .vi-input
+      width 400px
+
+  .slot-group
+    margin-top 40px
+    padding-top 40px
+    border-top 1px solid #e1e1e1
 </style>

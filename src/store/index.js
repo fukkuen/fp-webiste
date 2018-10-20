@@ -1,18 +1,36 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-Vue.use(Vuex)
 import http from '../http'
-
-const debug = process.env.NODE_ENV !== 'production'
-
-
 import { schema, normalize, denormalize } from 'normalizr'
+Vue.use(Vuex)
+const debug = process.env.NODE_ENV !== 'production'
 
 export const postSchema = new schema.Entity('post', {}, {idAttribute: 'post_id'})
 export const postListSchema = new schema.Array(postSchema)
 export const eventSchema = new schema.Entity('event', {}, {idAttribute: 'eventId'})
 export const eventListSchema = new schema.Array(eventSchema)
-
+const eventCats = [
+  {
+    name: 'WIP Inspection',
+    value: 'wip-inspection'
+  },
+  {
+    name: 'Artistic Production',
+    value: 'artistic-production'
+  },
+  {
+    name: 'Workshops',
+    value: 'workshops'
+  },
+  {
+    name: 'Stock-taking',
+    value: 'stock-taking'
+  },
+  {
+    name: 'Partnership',
+    value: 'partnership'
+  }
+]
 
 export default new Vuex.Store({
   state: {
@@ -21,7 +39,8 @@ export default new Vuex.Store({
     allEventIds: null,
     allPostIds: null,
     post: {},
-    event: {}
+    event: {},
+    eventCats: eventCats
   },
   mutations: {
     SET_RECENT_POST_IDS (state, ids) {

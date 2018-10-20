@@ -2,6 +2,7 @@ var express = require('express')
 var router = express.Router()
 var pool = require('./database')
 var wpautop = require('./wpautop')
+var chalk = require('chalk')
 
 /**
  * get all the events in the database
@@ -28,6 +29,7 @@ router.get('/getEvent/:eventId', async (req, res) => {
     ON s.event_id = e.event_id
     WHERE s.event_id = ?
     `, req.params.eventId)
+  console.log(rows[0])
   res.send(mergeEventSlot(rows, true)[0])
 })
 
@@ -65,9 +67,8 @@ router.post('/editEvent', async (req, res) => {
   try {
     cats = cats.join(',')
   } catch (e) {
-    res.send('Cats should be an array')
+    res.status(500).send('Cats should be an array', e)
   }
-  console.log(cats)
   try {
     pool.query(`
       UPDATE events
@@ -77,15 +78,14 @@ router.post('/editEvent', async (req, res) => {
   } catch (e) {
     console.log(e)
   }
-  // let query = 'INSERT INTO event_slots (event_id, start_date, end_date, slot_title) VALUES '
-  // slots.forEach(s => {
-  //   const {slotId, startDate, endDate, title} = s
-  //   pool.query(`
-  //     UPDATE event_slots
-  //     SET start_date = ?, end_date = ?, slot_title = ?
-  //     WHERE slot_id = ?
-  //   `, [startDate, endDate, title, slotId])
-  // })
+  slots.forEach(s => {
+    const {slotId, startDate, endDate, title} = s
+    pool.query(`
+      UPDATE event_slots
+      SET start_date = ?, end_date = ?, slot_title = ?
+      WHERE slot_id = ?
+    `, [startDate, endDate, title, slotId])
+  })
   res.send('done')
 })
 
@@ -125,6 +125,7 @@ const mergeEventSlot = (rows, includeHtml) => {
   eventArr.sort((a,b) => a.startDate < b.startDate ? 1 : -1)
   return eventArr
 }
+
 
 router.delete('/deleteEvent/:eventId', async (req, res) => {
   //

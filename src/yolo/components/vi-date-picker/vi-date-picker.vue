@@ -27,7 +27,7 @@
       <vi-icon size="10" :flip-y="opened" slot="append" name="down"/>
     </vi-input>
 
-    <datepicker :inline="true" @selected="onSelect" :highlighted="highlighted" :disabledDates="disabledDates"/>
+    <datepicker :inline="true" @selected="onSelect" :highlighted="highlighted"/>
   </vi-menu>
 </template>
 

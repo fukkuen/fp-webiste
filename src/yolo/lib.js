@@ -23,7 +23,7 @@ import ViNoData from './components/vi-no-data'
 import {ViTabs, ViTab} from './components/vi-tabs'
 import {ViCard, ViCardContent} from './components/vi-card'
 import {ViDialog, ViDialogTitle} from './components/vi-dialog'
-// import ViDatePicker from './components/vi-date-picker'
+import ViDatePicker from './components/vi-date-picker'
 import Sticky from './directives/sticky'
 import Scroll from './directives/scroll'
 import LoadingDots from './directives/loading-dots'
@@ -44,7 +44,7 @@ const Yolo = {
     // Vue.component('vi-data-table', ViDataTable)
     Vue.component('vi-drawer', ViDrawer)
     // Vue.component('vi-table-col', ViTableCol)
-    // Vue.component('vi-date-picker', ViDatePicker)
+    Vue.component('vi-date-picker', ViDatePicker)
     Vue.component('vi-icon', ViIcon)
     Vue.component('vi-input', ViInput)
     Vue.component('vi-input-error', ViInputError)
