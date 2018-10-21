@@ -5,7 +5,7 @@
       vi-input(v-model="form.title" placeholder="Event Title")
     .input-group
       label HTML
-      // div(v-html="form.html")
+      vue-editor(v-model="form.html")
     .input-group
       label Feature Image URL
       vi-input(v-model="form.imageUrl" placeholder="Image URL")
@@ -36,8 +36,11 @@ const genSlot = () => {
     slotTitle: ''
   }
 }
+import { VueEditor } from "vue2-editor";
 export default {
   name: 'event-detail-view',
+
+  components: { VueEditor },
 
   // provide eventId = Edit Mode
   props: ['eventId'],
@@ -94,11 +97,13 @@ export default {
 <style lang="stylus">
   .input-group
     display flex
-    align-items center
-    margin-bottom 10px
+    align-items flex-start
+    margin-bottom 20px
 
     > label
       width 180px
+      flex-shrink 0
+      padding-top 8px
 
     > .vi-input
       width 400px
@@ -107,4 +112,8 @@ export default {
     margin-top 40px
     padding-top 40px
     border-top 1px solid #e1e1e1
+
+  .quillWrapper
+    height 500px
+    margin-bottom 80px
 </style>
