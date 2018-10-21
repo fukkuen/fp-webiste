@@ -5,6 +5,8 @@ var wpautop = require('./wpautop')
 var eventsApi = require('./events-api')
 var bodyParser = require('body-parser');
 var chalk = require('chalk');
+var AWS = require('aws-sdk')
+var s3 = new AWS.S3()
 app.use(bodyParser.json())
 
 const testConnection = async () => {
@@ -188,12 +190,17 @@ app.get('/api/v1/posts/:id', (req, res) => {
   })
 })
 
-// app.get('/api/events', (req, res) => {
-//   res.sendStatus(200)
-// })
-
 app.get('/api/test', (req, res) => {
   res.sendStatus(200)
+})
+
+app.get('/api/s3', (req, res) => {
+  s3.createBucket({
+    Bucket: 'test2xsjdfhjdkshfkjdshf'
+  }, (err, data) => {
+    console.log('s3 callback:', err, data)
+    res.status(200).send('done')
+  })
 })
 
 app.use('/api/events', eventsApi)
