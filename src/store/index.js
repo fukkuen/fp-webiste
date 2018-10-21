@@ -140,6 +140,16 @@ export default new Vuex.Store({
       } catch (e) {
         console.log(e)
       }
+    },
+
+    async UPLOAD_IMAGE ({commit}, {file}) {
+      try {
+        console.log('prepare to upload: ', file)
+        const res = await http.upload('/image/upload', file)
+        console.log('upload image: ', res)
+      } catch (e) {
+        console.log(e)
+      }
     }
   },
   getters: {

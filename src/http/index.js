@@ -43,6 +43,12 @@ class Http {
     }
   }
 
+  async upload (url, file) {
+    const data = new FormData()
+    data.append('image', file)
+    return this.http.post(url, data)
+  }
+
   handleException (e) {
     if (e.response.status === 401) {
       if (router.history.current.name === 'login') return Promise.reject(e)

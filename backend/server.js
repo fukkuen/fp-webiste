@@ -7,6 +7,8 @@ var bodyParser = require('body-parser');
 var chalk = require('chalk');
 var AWS = require('aws-sdk')
 var s3 = new AWS.S3()
+var multer  = require('multer')
+var upload = multer()
 app.use(bodyParser.json())
 
 const testConnection = async () => {
@@ -204,6 +206,19 @@ app.get('/api/s3', (req, res) => {
 })
 
 app.use('/api/events', eventsApi)
+
+app.post('/api/image/upload', upload.single('image'), (req, res) => {
+  const file = req.file
+  console.log(file)
+  console.log(file.buffer)
+  var params = {Bucket: 'floating', Key: 'abc', Body: file.buffer};
+  s3.upload(params, function(err, data) {
+    console.log(err, data);
+    if (err) res.status(400).send('GG')
+    else res.status(200).send('OK')
+  });
+  // console.log('body: ', res.body)
+})
 
 app.listen(3000, () => {
   console.log('Server listening on port 3000')

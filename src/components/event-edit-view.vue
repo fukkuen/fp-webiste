@@ -4,6 +4,10 @@
       label Event Title
       vi-input(v-model="form.title" placeholder="Event Title")
     .input-group
+      label Feature Image
+      croppa(ref="croppa" @file-choose="uploadProfileImage")
+      button(@click="uploadProfileImage") upload
+    .input-group
       label HTML
       vue-editor(v-model="form.html")
     .input-group
@@ -29,6 +33,8 @@
 </template>
 
 <script>
+import Croppa from "vue-croppa";
+
 const genSlot = () => {
   return {
     startDate: null,
@@ -40,7 +46,10 @@ import { VueEditor } from "vue2-editor";
 export default {
   name: 'event-detail-view',
 
-  components: { VueEditor },
+  components: {
+    croppa: Croppa.component,
+    VueEditor
+  },
 
   // provide eventId = Edit Mode
   props: ['eventId'],
@@ -52,7 +61,8 @@ export default {
         html: '',
         cats: [],
         imageUrl: '',
-        slots: []
+        slots: [],
+        uploadingImage: false
       }
     }
   },
@@ -85,6 +95,27 @@ export default {
 
     addSlot () {
       this.form.slots.push(genSlot())
+    },
+
+    uploadProfileImage () {
+      console.log('hi')
+      if (!this.$refs.croppa.hasImage()) return
+
+      this.$refs.croppa.generateBlob(file => {
+        console.log(file)
+        this.uploadingImage = true
+        this.$store.dispatch('UPLOAD_IMAGE', {
+          file: file
+        }).then(res => {
+          this.uploadingImage = false
+          // this.showMessage('success', 'Profile image uploaded')
+          // remove the image, otherwise @new-image-drawn event will not be triggered if the user upload another image
+          this.$refs.croppa.remove()
+        }).catch(reason => {
+          this.uploadingImage = false
+          // this.showMessage('fail', 'Profile image upload fail')
+        })
+      })
     }
   },
 
