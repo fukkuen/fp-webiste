@@ -211,13 +211,16 @@ app.post('/api/image/upload', upload.single('image'), (req, res) => {
   const file = req.file
   console.log(file)
   console.log(file.buffer)
-  var params = {Bucket: 'floating', Key: 'abc', Body: file.buffer};
+  var params = {
+    Bucket: 'floating',
+    Key: file.originalname,
+    Body: file.buffer,
+    ACL: 'public-read'
+  }
   s3.upload(params, function(err, data) {
-    console.log(err, data);
     if (err) res.status(400).send('GG')
-    else res.status(200).send('OK')
-  });
-  // console.log('body: ', res.body)
+    else res.status(200).send(data.Location)
+  })
 })
 
 app.listen(3000, () => {

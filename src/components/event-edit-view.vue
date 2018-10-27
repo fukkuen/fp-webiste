@@ -5,14 +5,12 @@
       vi-input(v-model="form.title" placeholder="Event Title")
     .input-group
       label Feature Image
-      croppa(ref="croppa" @file-choose="uploadProfileImage")
+      croppa(ref="croppa" @new-image="uploadProfileImage" :width="300" :height="210" :quality="2")
+        img(slot="initial" :src="form.imageUrl")
       button(@click="uploadProfileImage") upload
     .input-group
       label HTML
-      vue-editor(v-model="form.html")
-    .input-group
-      label Feature Image URL
-      vi-input(v-model="form.imageUrl" placeholder="Image URL")
+      vue-editor(v-model="form.html" @imageAdded="handleImageAdded" :useCustomImageHandler="true")
     .input-group
       label Category(s)
       vi-select(v-model="form.cats" placeholder="Slot Title" :options="$store.state.eventCats" chip)
@@ -98,16 +96,19 @@ export default {
     },
 
     uploadProfileImage () {
-      console.log('hi')
       if (!this.$refs.croppa.hasImage()) return
+
+      const filename = this.$refs.croppa.getChosenFile().name
 
       this.$refs.croppa.generateBlob(file => {
         console.log(file)
         this.uploadingImage = true
         this.$store.dispatch('UPLOAD_IMAGE', {
-          file: file
+          file: file,
+          filename
         }).then(res => {
           this.uploadingImage = false
+          this.form.imageUrl = res
           // this.showMessage('success', 'Profile image uploaded')
           // remove the image, otherwise @new-image-drawn event will not be triggered if the user upload another image
           this.$refs.croppa.remove()
@@ -116,6 +117,14 @@ export default {
           // this.showMessage('fail', 'Profile image upload fail')
         })
       })
+    },
+
+    async handleImageAdded (file, Editor, cursorLocation, resetUploader) {
+      const url = await this.$store.dispatch('UPLOAD_IMAGE', {
+        file: file
+      })
+      Editor.insertEmbed(cursorLocation, 'image', url);
+      resetUploader();
     }
   },
 
@@ -147,4 +156,7 @@ export default {
   .quillWrapper
     height 500px
     margin-bottom 80px
+
+  canvas
+    border 1px solid #e1e1e1
 </style>

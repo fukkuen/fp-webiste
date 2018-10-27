@@ -43,9 +43,10 @@ class Http {
     }
   }
 
-  async upload (url, file) {
+  async upload (url, file, filename) {
+    console.log('filename', filename)
     const data = new FormData()
-    data.append('image', file)
+    data.append('image', file, filename)
     return this.http.post(url, data)
   }
 
