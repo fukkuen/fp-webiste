@@ -30,13 +30,18 @@ export default new Router({
       component: EventListView
     },
     {
+      name: 'event-create',
+      path: '/events/edit/create',
+      component: EventEditView
+    },
+    {
       name: 'post-detail',
       path: '/posts/:id',
       component: PostDetailView
     },
     {
       name: 'event-detail',
-      path: '/events/:id',
+      path: '/events/edit/:id',
       component: EventDetailView
     },
     {

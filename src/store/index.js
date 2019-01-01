@@ -104,6 +104,16 @@ export default new Vuex.Store({
         console.log(e)
       }
     },
+    async CREATE_EVENT ({commit}, {form}) {
+      try {
+        await http.post(`/events/createEvent`, {
+          form
+        })
+        return true
+      } catch (e) {
+        console.log(e)
+      }
+    },
     async FETCH_RECENT_POSTS ({commit}) {
       try {
         const res = await http.get('/v1/posts?limit=3')

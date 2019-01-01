@@ -10,11 +10,14 @@ var s3 = new AWS.S3()
 var multer  = require('multer')
 var upload = multer()
 app.use(bodyParser.json())
+const fs = require('fs')
 
 const testConnection = async () => {
   try {
     await pool.query('SHOW DATABASES')
-    console.log('connected to DB')
+    const list = await pool.query('select * from articles')
+    console.log('connected to DB', list)
+    fs.writeFileSync('student-2.json', JSON.stringify(list));
   } catch (e) {
     console.log('Error', e)
   }
@@ -26,6 +29,12 @@ app.use((req, res, next) => {
   console.log(chalk.cyan(req.path))
   console.log(chalk.yellow(JSON.stringify(req.body)))
   next()
+})
+
+console.log('?')
+pool.query('Select * from events', (e, rows) => {
+  console.log('err', e)
+  console.log(rows)
 })
 
 app.get('/api/v1/posts', (req, res) => {
@@ -166,8 +175,8 @@ app.get('/api/v1/events', (req, res) => {
     })
 })
 
-
 app.get('/api/members', (req, res) => {
+  console.log(req)
   pool.query(`SELECT wp.post_title as member_name, wp2.guid as image
     FROM wp_posts wp
     LEFT JOIN wp_postmeta m
@@ -178,6 +187,7 @@ app.get('/api/members', (req, res) => {
     AND m.meta_key = '_thumbnail_id'
     AND wp.post_status = 'publish'
     GROUP BY wp.ID`, null, {}, (e, row) => {
+    console.log(row)
     res.send(row)
   })
 })

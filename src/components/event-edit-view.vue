@@ -5,9 +5,9 @@
       vi-input(v-model="form.title" placeholder="Event Title")
     .input-group
       label Feature Image
-      croppa(ref="croppa" @new-image="uploadProfileImage" :width="300" :height="210" :quality="2")
+      croppa(ref="croppa" @newImage="uploadProfileImage" :width="300" :height="210" :quality="2")
         img(slot="initial" :src="form.imageUrl")
-      button(@click="uploadProfileImage") upload
+      vi-button(@click="uploadProfileImage") upload
     .input-group
       label HTML
       vue-editor(v-model="form.html" @imageAdded="handleImageAdded" :useCustomImageHandler="true")
@@ -27,7 +27,8 @@
         vi-input(v-model="s.slotTitle" placeholder="Slot Title")
     vi-button(@click="addSlot") Add another time slot
     div
-      vi-button(@click="edit") Edit
+      vi-button(@click="edit" color="brand" v-if="isEdit") Update
+      vi-button(@click="create" color="brand" v-else) Create Event
 </template>
 
 <script>
@@ -66,8 +67,8 @@ export default {
   },
 
   computed: {
-    event () {
-      return this.$store.getters.event(this.$id)
+    isEdit () {
+      return !!this.eventId
     }
   },
 
@@ -91,11 +92,16 @@ export default {
       this.$store.dispatch('EDIT_EVENT', {form: payload})
     },
 
+    async create () {
+      this.$store.dispatch('CREATE_EVENT', {form: this.form})
+    },
+
     addSlot () {
       this.form.slots.push(genSlot())
     },
 
     uploadProfileImage () {
+      console.log('uploadProfileImage')
       if (!this.$refs.croppa.hasImage()) return
 
       const filename = this.$refs.croppa.getChosenFile().name
@@ -129,7 +135,8 @@ export default {
   },
 
   created () {
-    this.fetchEdit()
+    console.log('gu', this.isEdit, this.eventId)
+    if (this.isEdit) this.fetchEdit()
   }
 }
 </script>

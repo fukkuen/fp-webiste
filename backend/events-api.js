@@ -37,23 +37,20 @@ router.get('/getEvent/:eventId', async (req, res) => {
  * This will insert data into two different table
  */
 router.post('/createEvent', async (req, res) => {
-  const {title, html, cats, imageUrl, slots} = req.body
+  const {title, html, cats, imageUrl, slots} = req.body.form
   const {insertId} = await pool.query(`
-    INSERT INTO events (event_title, event_html, event_cats, image_url)
-    VALUE ('${title}', '${html}', '${cats}', '${imageUrl}');  
+    INSERT INTO events (event_title, event_html, event_cats, image_url, created_date)
+    VALUE ('${title}', '${html}', '${cats}', '${imageUrl}', '2010-03-02 14:51:04');  
   `)
-  let query = 'INSERT INTO event_slots (event_id, start_date, end_date, slot_title) VALUES '
+
   slots.forEach(s => {
-    query += `('${insertId}','${s.startDate}','${s.endDate}','${s.title}'),`
+    pool.query(`
+      INSERT INTO 
+      event_slots (event_id, start_date, end_date, slot_title) 
+      VALUES (?, ?, ?, ?) 
+    `, [insertId, s.startDate, s.endDate, s.title])
   })
-  query = query.slice(0, query.length - 1)
-  console.log(query)
-  try {
-    const result = await pool.query(query)
-    console.log('success', result)
-  } catch (e) {
-    console.log(e)
-  }
+
   res.send('done')
 })
 
@@ -131,8 +128,9 @@ const mergeEventSlot = (rows, includeHtml) => {
     events[r.event_id].slots.push({
       startDate: stripDate(r.start_date),
       endDate: stripDate(r.end_date),
-      slotTitle: r.slot_title,
-      slotId: r.slot_id
+      title: r.slot_title,
+      slotId: r.slot_id,
+      fullDay: !!r.end_date
     })
   })
   const eventArr = []
